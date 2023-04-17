@@ -1,10 +1,10 @@
 <?php
 
-  function clearInputs($data = '') {
-
+function clearInput($data){
     $data = trim($data);
-    $data = stripslashes($data);
+    $data = stripcslashes($data);
     $data = htmlspecialchars($data);
     return $data;
-
 }
+
+?>
