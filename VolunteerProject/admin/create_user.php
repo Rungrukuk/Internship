@@ -55,7 +55,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
 
     if($usernameError == "" && $passwordError == "" && $nameError == "" && $statusError == "")
     {
-        echo "Yes";
         $sql = "INSERT INTO `users`(`name`, `username`, `password`, `status`) VALUES ('$name','$username','$password','$status')";
         if ($conn->query($sql) === TRUE) 
         {
