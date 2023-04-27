@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 20, 2023 at 12:26 PM
+-- Generation Time: Apr 27, 2023 at 03:05 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -38,6 +38,16 @@ CREATE TABLE `users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`id`, `name`, `username`, `password`, `created`, `updated`, `status`) VALUES
+(1, 'Kamal', 'admin', '4297f44b13955235245b2497399d7a93', '2023-04-20 15:57:23', NULL, 0),
+(2, 'test', 'test', '4297f44b13955235245b2497399d7a93', '2023-04-27 14:26:21', NULL, 0),
+(4, 'SecondTest', 'SecondTest', '4297f44b13955235245b2497399d7a93', '2023-04-27 14:54:54', NULL, 0),
+(5, 'ThirdTest', 'ThirdTest', '4297f44b13955235245b2497399d7a93', '2023-04-27 14:56:53', NULL, 0);
+
+--
 -- Indexes for dumped tables
 --
 
@@ -55,7 +65,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
