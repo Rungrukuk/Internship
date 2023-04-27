@@ -9,10 +9,13 @@ if(!isset($_SESSION['user_login'])){
 
 <!DOCTYPE html>
 <html lang="en">
-<?php
-include "includes/head.php";
-?>
-
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css&javascript/style.css">
+    <title>Admin Panel</title>
+</head>
 <body> 
     <nav>
       <div class="header">
@@ -108,6 +111,6 @@ include "includes/head.php";
     <!-- <div onclick="toggleTheme('light');" class="darkMode"> -->
 
     </div>
-    <script src="assets/main.js"></script>
+    <script src="main.js"></script>
 </body>
 </html>
