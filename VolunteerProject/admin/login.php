@@ -49,10 +49,10 @@ if($usernameError == "" and $passwordError == ""){
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <link rel="stylesheet" href="css&javascript/page.css">
+    <link rel="stylesheet" href="assets/style.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <script src="css&javascript/page.js"></script>
+    <script src="assets/main.js"></script>
     <script src="https://kit.fontawesome.com/da3bb39bb1.js" crossorigin="anonymous"></script>
     <style>
 .error {color: #FF0000;}
@@ -61,7 +61,7 @@ if($usernameError == "" and $passwordError == ""){
 <body>
     <div class="container">
         <header class="header">
-            <img id="logo" src="css&javascript/image/121.png" alt="logo">
+            <img id="logo" src="assets/image/121.png" alt="logo">
             <span class="title">İslahat Könüllülərinin İdarəetmə sistemi</span>
         </header>
         <main class="main">
@@ -74,9 +74,9 @@ if($usernameError == "" and $passwordError == ""){
                     <span class="error">* <?php echo $passwordError;?></span>
                     <p id="passWord">Password</p>
                     <input class="passArea" id="password" name="password" type="password">
-                    <img id="passLogo" src="css&javascript/image/Vector.png">
-                    <img id="eyeIconHide" class="hide" onclick="hiden()" src="css&javascript/image/hide.png">
-                    <img id="eyeIconView" class="view" onclick="viewer()" src="css&javascript/image/view.png"><br>
+                    <img id="passLogo" src="assets/image/Vector.png">
+                    <img id="eyeIconHide" class="hide" onclick="hiden()" src="assets/image/hide.png">
+                    <img id="eyeIconView" class="view" onclick="viewer()" src="assets/image/view.png"><br>
                     <span class="error">* <?php echo $loginError;?></span>
                     <div class="rememberMe">
                         <input type="checkbox" value="lsRememberMe" id="rememberMe"> <label for="rememberMe">Remember me</label><br>
