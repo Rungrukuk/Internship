@@ -43,7 +43,7 @@ if(!isset($_SESSION['user_login'])){
             <input type="text" id="mySearch" onkeyup="myFunction()" placeholder="Search" title="Type in a category">
             <ul id="myMenu">
               <li><a href="#">Dashboard</a></li>
-              <li><a href="#">Components</a></li>
+              <li><a href="create_user">Create User</a></li>
               <li><a href="#">Analytics</a></li>
               <li><a href="#">Tables</a></li>
               <li><a href="#">Forms</a></li>

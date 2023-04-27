@@ -25,7 +25,7 @@ if($usernameError == "" and $passwordError == ""){
 
     $sql_login = "SELECT * FROM users WHERE `username` = '$username' and `password` = '$password'";
 
-    $result = mysqli_query($connections,$sql_login);
+    $result = mysqli_query($conn,$sql_login);
     
     if(mysqli_num_rows($result) > 0){
         
@@ -54,6 +54,9 @@ if($usernameError == "" and $passwordError == ""){
     <title>Document</title>
     <script src="css&javascript/page.js"></script>
     <script src="https://kit.fontawesome.com/da3bb39bb1.js" crossorigin="anonymous"></script>
+    <style>
+.error {color: #FF0000;}
+</style>
 </head>
 <body>
     <div class="container">
@@ -64,14 +67,17 @@ if($usernameError == "" and $passwordError == ""){
         <main class="main">
             <div class="inputArea">
                 <form id="form" action="" method="post">
+                    <span class="error">* <?php echo $usernameError;?></span>
                     <p id="userName">Username</p>
-                    <input class="userArea" name="username" type="text">
+                    <input class="userArea" name="username" type="text" value="<?php echo $username;?>">
                     <i class="fa-regular fa-user" style="color: #000000;"></i>
+                    <span class="error">* <?php echo $passwordError;?></span>
                     <p id="passWord">Password</p>
                     <input class="passArea" id="password" name="password" type="password">
                     <img id="passLogo" src="css&javascript/image/Vector.png">
                     <img id="eyeIconHide" class="hide" onclick="hiden()" src="css&javascript/image/hide.png">
                     <img id="eyeIconView" class="view" onclick="viewer()" src="css&javascript/image/view.png"><br>
+                    <span class="error">* <?php echo $loginError;?></span>
                     <div class="rememberMe">
                         <input type="checkbox" value="lsRememberMe" id="rememberMe"> <label for="rememberMe">Remember me</label><br>
                         <input class="loginButton" type="submit" value="Login" onclick="lsRememberMe()">
