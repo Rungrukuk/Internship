@@ -2,14 +2,14 @@
 <?php
 include "functions/connections.php";
 include "functions/functions.php";
-$name = $username = $password = $updated = $usernameError = $passwordError  = $statusError = $nameError = $updatedError = $success = $error =  "";
-
+$name = $username = $password = $updated = $usernameError = $passwordError  = $statusError = $nameError /*= $updatedError*/ = $success = $error =  "";
+$status = 0;
 if ($_SERVER["REQUEST_METHOD"] == "POST")
 {
 
     if($_POST['name'] == '') 
     {
-        $name = "Name is required";
+        $nameError = "Name is required";
     }
     else
     {
@@ -42,27 +42,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
         $password = md5($_POST["password"]);
     }
 
-    if($_POST['status'] == '') 
+    if($_POST['status'] != '')
     {
-        $status = 0;
-    }
-    else
-    { 
-        $status = $_POST['status'];
+        $status = (int)$_POST['status'];
 
-        if($status>1 || $status < 0)
+        if($status>1 or $status<0)
         {
-            $statusError = "Only 1 and 0 allowed";
+            $status = 0;
+            $statusError = "You can enter only 0 and 1";
         }
-
     }
-    // Add Updated Time Error;
-    echo $statusError;
-    if($usernameError == "" and $passwordError == "" and $nameError == "" and $statusError = "" /*and $updatedError = ""*/)
-    {
 
-        $sql_login = "INSERT INTO `users`(`name`, `username`, `password`, `status`) VALUES ('$name','$username','$password','$status')";
-        if ($conn->query($sql) == TRUE) 
+    if($usernameError == "" && $passwordError == "" && $nameError == "" && $statusError == "")
+    {
+        echo "Yes";
+        $sql = "INSERT INTO `users`(`name`, `username`, `password`, `status`) VALUES ('$name','$username','$password','$status')";
+        if ($conn->query($sql) === TRUE) 
         {
             $success = "New record created successfully";
         } 
@@ -70,11 +65,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
         {
             $error = "Error: " . $sql . "<br>" . $conn->error;
         }
-        $conn->close();
     }
 
-}
 
+}
 
 
 
@@ -108,16 +102,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
         <input type="password" name = "password"> 
         </br>
         </br>
-        <span class="error">* <?php echo $updatedError;?></span>
+        <span class="error">* <?php echo $statusError;?></span>
+        <label for="status">Name</label>
+        <input type="number" name = "status" value="<?php echo $status;?>">
+        </br>
+        </br>
+        <!-- <span class="error">* <?php //echo $updatedError;?></span>
         <label for="updated">Updated Time</label>
         <input type="datetime-local" name = "updated"> 
         </br>
-        </br>
-        <span class="error">* <?php echo $statusError;?></span>
-        <label for="status">Status</label>
-        <input type="number" name = "status"> 
-        </br>
-        </br>
+        </br> -->
         <span class="error"><?php echo $success;?></span>
         <span class="error"><?php echo $error;?></span>
         </br>
