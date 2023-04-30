@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.1
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 27, 2023 at 03:05 PM
--- Server version: 10.4.28-MariaDB
--- PHP Version: 8.2.4
+-- Generation Time: Apr 30, 2023 at 03:43 PM
+-- Server version: 10.4.27-MariaDB
+-- PHP Version: 8.2.0
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -42,10 +42,34 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `username`, `password`, `created`, `updated`, `status`) VALUES
-(1, 'Kamal', 'admin', '4297f44b13955235245b2497399d7a93', '2023-04-20 15:57:23', NULL, 0),
-(2, 'test', 'test', '4297f44b13955235245b2497399d7a93', '2023-04-27 14:26:21', NULL, 0),
-(4, 'SecondTest', 'SecondTest', '4297f44b13955235245b2497399d7a93', '2023-04-27 14:54:54', NULL, 0),
-(5, 'ThirdTest', 'ThirdTest', '4297f44b13955235245b2497399d7a93', '2023-04-27 14:56:53', NULL, 0);
+(1, 'Kamal', 'Kamal', '4297f44b13955235245b2497399d7a93', '2023-04-17 20:13:09', NULL, 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `volunteerinfos`
+--
+
+CREATE TABLE `volunteerinfos` (
+  `id` int(11) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `surname` varchar(255) NOT NULL,
+  `fatherName` varchar(255) NOT NULL,
+  `leader` varchar(255) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `phoneNumber` varchar(255) NOT NULL,
+  `startTime` date NOT NULL,
+  `finishTime` date DEFAULT NULL,
+  `imageName` varchar(255) NOT NULL,
+  `gender` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `volunteerinfos`
+--
+
+INSERT INTO `volunteerinfos` (`id`, `name`, `surname`, `fatherName`, `leader`, `email`, `phoneNumber`, `startTime`, `finishTime`, `imageName`, `gender`) VALUES
+(1, 'Test', 'Test', 'Test', 'Test', 'Test@gmail.com', 'TestNumber', '2023-03-26', '2023-05-06', 'user.png', 'Kişi');
 
 --
 -- Indexes for dumped tables
@@ -58,6 +82,12 @@ ALTER TABLE `users`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `volunteerinfos`
+--
+ALTER TABLE `volunteerinfos`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -65,7 +95,13 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
+
+--
+-- AUTO_INCREMENT for table `volunteerinfos`
+--
+ALTER TABLE `volunteerinfos`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
