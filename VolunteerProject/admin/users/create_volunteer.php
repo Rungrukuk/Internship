@@ -15,7 +15,7 @@ if ($_SERVER[ "REQUEST_METHOD" ] == "POST") {
   }
   else {
     $name = clearInput( $_POST[ "name" ] );
-    if (!preg_match( '/^\pL+$/u', $name )) {
+    if (!preg_match( '/^[a-zA-ZəƏçÇşŞöÖıİğĞüÜ\s]+$/', $name )) {
       $nameError = "Only letters allowed";
     }
   }
@@ -26,7 +26,7 @@ if ($_SERVER[ "REQUEST_METHOD" ] == "POST") {
   }
   else {
     $surname = clearInput( $_POST[ "surname" ] );
-    if (!preg_match( '/^\pL+$/u', $surname )) {
+    if (!preg_match( '/^[a-zA-ZəƏçÇşŞöÖıİğĞüÜ\s]+$/', $surname )) {
       $surnameError = "Only letters allowed";
     }
   }
@@ -37,7 +37,7 @@ if ($_SERVER[ "REQUEST_METHOD" ] == "POST") {
   }
   else {
     $fatherName = clearInput( $_POST[ "fatherName" ] );
-    if (!preg_match( '/^\pL+$/u', $fatherName )) {
+    if (!preg_match( '/^[a-zA-ZəƏçÇşŞöÖıİğĞüÜ\s]+$/', $fatherName )) {
       $fatherNameError = "Only letters allowed";
     }
   }
@@ -48,7 +48,7 @@ if ($_SERVER[ "REQUEST_METHOD" ] == "POST") {
   }
   else {
     $leader = clearInput( $_POST[ "leader" ] );
-    if (!preg_match( '/^\pL+$/u', $leader )) {
+    if (!preg_match( '/^[a-zA-ZəƏçÇşŞöÖıİğĞüÜ\s]+$/', $leader )) {
       $leaderError = "Only letters allowed";
     }
   }

@@ -81,44 +81,46 @@ include "C:/xampp/htdocs/Internship/VolunteerProject/admin/includes/head.php";
               else
                 break;
               ?>
-              <td>
-                <?php echo $row[ "id" ] ?>
-              </td>
-              <td>
-                <?php echo $row[ "name" ] ?>
-              </td>
-              <td>
-                <?php echo $row[ "surname" ] ?>
-              </td>
-              <td>
-                <?php echo $row[ "fatherName" ] ?>
-              </td>
-              <td>
-                <?php echo $row[ "leader" ] ?>
-              </td>
-              <td>
-                <?php echo $row[ "email" ] ?>
-              </td>
-              <td>
-                <?php echo $row[ "phoneNumber" ] ?>
-              </td>
-              <td>
-                <?php echo $row[ "startTime" ] ?>
-              </td>
-              <td>
-                <?php echo $row[ "finishTime" ] ?>
-              </td>
-              <td>
-                <?php echo $row[ "imageName" ] ?>
-              </td>
-              <td>
-                <?php echo $row[ "gender" ] ?>
-              </td>
+              <tr>
+                <td>
+                  <?php echo $row[ "id" ] ?>
+                </td>
+                <td>
+                  <?php echo $row[ "name" ] ?>
+                </td>
+                <td>
+                  <?php echo $row[ "surname" ] ?>
+                </td>
+                <td>
+                  <?php echo $row[ "fatherName" ] ?>
+                </td>
+                <td>
+                  <?php echo $row[ "leader" ] ?>
+                </td>
+                <td>
+                  <?php echo $row[ "email" ] ?>
+                </td>
+                <td>
+                  <?php echo $row[ "phoneNumber" ] ?>
+                </td>
+                <td>
+                  <?php echo $row[ "startTime" ] ?>
+                </td>
+                <td>
+                  <?php echo $row[ "finishTime" ] ?>
+                </td>
+                <td>
+                  <?php echo $row[ "imageName" ] ?>
+                </td>
+                <td>
+                  <?php echo $row[ "gender" ] ?>
+                </td>
+              </tr>
               <?php
             }
           }
           ?>
-          </tr>
+
         </tbody>
       </table>
     </div>

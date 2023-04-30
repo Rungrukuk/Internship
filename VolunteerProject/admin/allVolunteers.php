@@ -42,53 +42,58 @@ include "C:/xampp/htdocs/Internship/VolunteerProject/admin/includes/head.php";
                         <th scope="col">Bitirmə tarixi</th>
                         <th scope="col">Şəkil adı</th>
                         <th scope="col">Cinsiyyəti</th>
+                        <th scope="col">Update</th>
+                        <th scope="col">Delete</th>
                     </tr>
                 </thead>
                 <tbody>
 
                     <?php
                     if ($result->num_rows > 0) {
-
                         while ($row = $result->fetch_assoc()) {
                             ?>
-                            <td>
-                                <?php echo $row[ "id" ] ?>
-                            </td>
-                            <td>
-                                <?php echo $row[ "name" ] ?>
-                            </td>
-                            <td>
-                                <?php echo $row[ "surname" ] ?>
-                            </td>
-                            <td>
-                                <?php echo $row[ "fatherName" ] ?>
-                            </td>
-                            <td>
-                                <?php echo $row[ "leader" ] ?>
-                            </td>
-                            <td>
-                                <?php echo $row[ "email" ] ?>
-                            </td>
-                            <td>
-                                <?php echo $row[ "phoneNumber" ] ?>
-                            </td>
-                            <td>
-                                <?php echo $row[ "startTime" ] ?>
-                            </td>
-                            <td>
-                                <?php echo $row[ "finishTime" ] ?>
-                            </td>
-                            <td>
-                                <?php echo $row[ "imageName" ] ?>
-                            </td>
-                            <td>
-                                <?php echo $row[ "gender" ] ?>
-                            </td>
+                            <tr>
+                                <td>
+                                    <?php echo $row[ "id" ] ?>
+                                </td>
+                                <td>
+                                    <?php echo $row[ "name" ] ?>
+                                </td>
+                                <td>
+                                    <?php echo $row[ "surname" ] ?>
+                                </td>
+                                <td>
+                                    <?php echo $row[ "fatherName" ] ?>
+                                </td>
+                                <td>
+                                    <?php echo $row[ "leader" ] ?>
+                                </td>
+                                <td>
+                                    <?php echo $row[ "email" ] ?>
+                                </td>
+                                <td>
+                                    <?php echo $row[ "phoneNumber" ] ?>
+                                </td>
+                                <td>
+                                    <?php echo $row[ "startTime" ] ?>
+                                </td>
+                                <td>
+                                    <?php echo $row[ "finishTime" ] ?>
+                                </td>
+                                <td>
+                                    <?php echo $row[ "imageName" ] ?>
+                                </td>
+                                <td>
+                                    <?php echo $row[ "gender" ] ?>
+                                </td>
+                                <td><a href="users/update.php?id=<?php echo $row[ "id" ] ?>">Update</a></td>
+                                <td><a href="users/delete.php?id=<?php echo $row[ "id" ] ?>">Delete</a></td>
+                            </tr>
                             <?php
                         }
                     }
                     ?>
-                    </tr>
+
                 </tbody>
             </table>
         </div>
