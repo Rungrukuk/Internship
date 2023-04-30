@@ -1,4 +1,9 @@
 <?php
+session_start();
+if (!isset($_SESSION[ 'user_login' ])) {
+  header( 'Location: C:/xampp/htdocs/Internship/VolunteerProject/admin/login.php' );
+}
+
 include "../functions/connections.php";
 include "../functions/functions.php";
 
