@@ -13,12 +13,15 @@ $name = $surname = $fatherName = $leader = $email = $phoneNumber = $startTime = 
 
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
+
   if (!isset($_POST['csrf_token_create']) || $_POST['csrf_token_create'] !== $_SESSION['csrf_token_create']) {
     // CSRF token doesn't match or is missing, reject the form submission
     header('HTTP/1.1 400 Bad Request');
     echo 'CSRF token mismatch';
     exit;
   }
+  $token = bin2hex(random_bytes(32));
+  $_SESSION['csrf_token_create'] = $token;
   //Name
   if ($_POST['name'] == '') {
     $nameError = "Name is required";
@@ -165,56 +168,56 @@ include "C:/xampp/htdocs/Internship/VolunteerProject/admin/includes/head.php";
                     <?php echo $nameError ?>
                   </span></span>
 
-                <input type="text" name="name" value="<?php echo $name ?>" >
+                <input type="text" name="name" value="<?php echo $name ?>">
               </div>
               <div class="input-box">
                 <span class="details">Soyad <span class="error">*
                     <?php echo $surnameError ?>
                   </span> </span>
 
-                <input type="text" name="surname" value="<?php echo $surname ?>" >
+                <input type="text" name="surname" value="<?php echo $surname ?>">
               </div>
               <div class="input-box">
                 <span class="details">Ata adı <span class="error">*
                     <?php echo $fatherNameError ?>
                   </span></span>
 
-                <input type="text" name="fatherName" value="<?php echo $fatherName ?>" >
+                <input type="text" name="fatherName" value="<?php echo $fatherName ?>">
               </div>
               <div class="input-box">
                 <span class="details">Rəhbər <span class="error">*
                     <?php echo $leaderError ?>
                   </span></span>
 
-                <input type="text" name="leader" value="<?php echo $leader ?>" >
+                <input type="text" name="leader" value="<?php echo $leader ?>">
               </div>
               <div class="input-box">
                 <span class="details">Email <span class="error">*
                     <?php echo $emailError ?>
                   </span></span>
 
-                <input type="text" name="email" value="<?php echo $email ?>" >
+                <input type="text" name="email" value="<?php echo $email ?>">
               </div>
               <div class="input-box">
                 <span class="details">Telefon nömrəsi <span class="error">*
                     <?php echo $phoneNumberError ?>
                   </span></span>
 
-                <input type="text" name="phoneNumber" value="<?php echo $phoneNumber ?>" >
+                <input type="text" name="phoneNumber" value="<?php echo $phoneNumber ?>">
               </div>
               <div class="input-box">
                 <span class="details">Başlama tarixi <span class="error">*
                     <?php echo $startTimeError ?>
                   </span></span>
 
-                <input type="date" name="startTime" value="<?php echo $startTime ?>" >
+                <input type="date" name="startTime" value="<?php echo $startTime ?>">
               </div>
               <div class="input-box">
                 <span class="details">Bitirmə tarixi <span class="error">*
                     <?php echo $finishTimeError ?>
                   </span></span>
 
-                <input type="date" name="finishTime" value="<?php echo $finishTime ?>" >
+                <input type="date" name="finishTime" value="<?php echo $finishTime ?>">
               </div>
               <div class="input-box">
                 <span class="details">Foto şəkil <span class="error">*
@@ -222,7 +225,7 @@ include "C:/xampp/htdocs/Internship/VolunteerProject/admin/includes/head.php";
                   </span></span>
 
                 <input class="file-selector-button" style="border: none !important; height: 30px;" type="file"
-                  name="uploadingFile" >
+                  name="uploadingFile">
               </div>
             </div>
             <div class="gender-details">

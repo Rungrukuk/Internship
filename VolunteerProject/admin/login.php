@@ -58,20 +58,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         .error {
             color: #FF0000;
         }
-
-        .container {
-            background-image: url(assets/image/background.webp);
-            background-repeat: no-repeat;
-            background-position: center;
-            background-attachment: fixed;
-            height: 968px;
-
-        }
     </style>
 </head>
 
 <body>
-    <div class="container">
+    <div class="login-container">
         <header class="header">
             <img id="logo" src="assets/image/121.png" alt="logo">
             <span class="title">İslahat Könüllülərinin İdarəetmə sistemi</span>

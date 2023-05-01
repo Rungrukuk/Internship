@@ -14,12 +14,12 @@ body {
 }
 
 /* ADMINPANEL LOGIN SECTION */
-.container {
+.login-container {
+  background-image: url(image/background.webp);
   background-repeat: no-repeat;
   background-position: center;
   background-attachment: fixed;
   height: 968px;
-
 }
 
 .header {
@@ -71,7 +71,7 @@ body {
   font-weight: 400;
   font-size: 15px;
   line-height: 18px;
-  color: #FFFFFF;
+  color: #ffffff;
   font-family: 'Prompt', sans-serif;
 }
 
@@ -147,7 +147,7 @@ input[type='password'] {
   margin-top: 15px;
   border-radius: 25px;
   border: none;
-  background-color: #FFFFFF;
+  background-color: #ffffff;
   outline: none;
 }
 
@@ -488,7 +488,7 @@ main {
   border-radius: 5px;
 }
 
-.container .title {
+.login-container.title {
   font-size: 25px;
   font-weight: 500;
   position: relative;
