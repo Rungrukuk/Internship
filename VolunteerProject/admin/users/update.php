@@ -1,8 +1,10 @@
 <?php
 session_start();
-if (!isset($_SESSION[ 'user_login' ])) {
-    header( 'Location: C:/xampp/htdocs/Internship/VolunteerProject/admin/login.php' );
+if (!isset($_SESSION['user_login'])) {
+    header('Location: C:/xampp/htdocs/Internship/VolunteerProject/admin/login.php');
 }
+
+
 include "../functions/connections.php";
 include "../functions/functions.php";
 
@@ -10,146 +12,150 @@ include "../functions/functions.php";
 $name = $surname = $fatherName = $leader = $email = $phoneNumber = $startTime = $finishTime = $imageName = $gender = $nameError = $surnameError = $fatherNameError = $leaderError = $emailError = $phoneNumberError = $startTimeError = $finishTimeError = $imageError = $genderError = $success = $error = "";
 
 
-if (isset($_GET[ "id" ])) {
-    $id = $_GET[ "id" ];
 
-    if ($_SERVER[ "REQUEST_METHOD" ] == "POST") {
+if (isset($_GET["id"])) {
+    $id = $_GET["id"];
 
-        //Name
-        if ($_POST[ 'name' ] == '') {
-            $nameError = "Name is required";
+    if ($_SERVER["REQUEST_METHOD"] === "POST") {
+        if (!isset($_POST['csrf_token_update']) || $_POST['csrf_token_update'] !== $_SESSION['csrf_token_update']) {
+            // CSRF token doesn't match or is missing, reject the form submission
+            header('HTTP/1.1 400 Bad Request');
+            echo 'CSRF token mismatch';
+            exit;
         }
-        else {
-            $name = clearInput( $_POST[ "name" ] );
-            if (!preg_match( '/^[a-zA-ZəƏçÇşŞöÖıİğĞüÜ\s]+$/', $name )) {
+        unset($_SESSION['csrf_token_update']);
+        $token = bin2hex(random_bytes(32));
+        $_SESSION['csrf_token_update'] = $token;
+        //Name
+        if ($_POST['name'] == '') {
+            $nameError = "Name is required";
+        } else {
+            $name = clearInput($_POST["name"]);
+            if (!preg_match('/^[a-zA-ZəƏçÇşŞöÖıİğĞüÜ\s]+$/', $name)) {
                 $nameError = "Only letters allowed";
             }
         }
 
         //Surname
-        if ($_POST[ 'surname' ] == '') {
+        if ($_POST['surname'] == '') {
             $surnameError = "Surname is required";
-        }
-        else {
-            $surname = clearInput( $_POST[ "surname" ] );
-            if (!preg_match( '/^[a-zA-ZəƏçÇşŞöÖıİğĞüÜ\s]+$/', $surname )) {
+        } else {
+            $surname = clearInput($_POST["surname"]);
+            if (!preg_match('/^[a-zA-ZəƏçÇşŞöÖıİğĞüÜ\s]+$/', $surname)) {
                 $surnameError = "Only letters allowed";
             }
         }
 
         //Father Name
-        if ($_POST[ 'fatherName' ] == '') {
+        if ($_POST['fatherName'] == '') {
             $fatherNameError = "Father name is required";
-        }
-        else {
-            $fatherName = clearInput( $_POST[ "fatherName" ] );
-            if (!preg_match( '/^[a-zA-ZəƏçÇşŞöÖıİğĞüÜ\s]+$/', $fatherName )) {
+        } else {
+            $fatherName = clearInput($_POST["fatherName"]);
+            if (!preg_match('/^[a-zA-ZəƏçÇşŞöÖıİğĞüÜ\s]+$/', $fatherName)) {
                 $fatherNameError = "Only letters allowed";
             }
         }
 
         //Leader
-        if ($_POST[ 'leader' ] == '') {
+        if ($_POST['leader'] == '') {
             $leaderError = "Leader is required";
-        }
-        else {
-            $leader = clearInput( $_POST[ "leader" ] );
-            if (!preg_match( '/^[a-zA-ZəƏçÇşŞöÖıİğĞüÜ\s]+$/', $leader )) {
+        } else {
+            $leader = clearInput($_POST["leader"]);
+            if (!preg_match('/^[a-zA-ZəƏçÇşŞöÖıİğĞüÜ\s]+$/', $leader)) {
                 $leaderError = "Only letters allowed";
             }
         }
 
         //Email
-        if ($_POST[ "email" ] == "") {
+        if ($_POST["email"] == "") {
             $emailError = "Email is required";
-        }
-        else {
-            $email = clearInput( $_POST[ "email" ] );
-            if (!filter_var( $email, FILTER_VALIDATE_EMAIL )) {
+        } else {
+            $email = clearInput($_POST["email"]);
+            if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
                 $emailError = "Invalid email format";
             }
         }
 
         //Phone Number
-        if ($_POST[ "phoneNumber" ] == "") {
+        if ($_POST["phoneNumber"] == "") {
             $phoneNumberError = "Phone number is reqiured";
-        }
-        else {
-            $phoneNumber = clearInput( $_POST[ "phoneNumber" ] );
+        } else {
+            $phoneNumber = clearInput($_POST["phoneNumber"]);
         }
 
         //Start Time
-        if ($_POST[ "startTime" ] == "") {
+        if ($_POST["startTime"] == "") {
             $startTimeError = "Start time is reqiured";
-        }
-        else {
-            $startTime = date( 'Y-m-d', strtotime( clearInput( $_POST[ "startTime" ] ) ) );
+        } else {
+            $startTime = date('Y-m-d', strtotime(clearInput($_POST["startTime"])));
         }
 
         //Finish Time
-        if ($_POST[ "finishTime" ] == "") {
+        if ($_POST["finishTime"] == "") {
             $finishError = "Finish time is reqiured";
-        }
-        else {
-            $finishTime = date( 'Y-m-d', strtotime( clearInput( $_POST[ "finishTime" ] ) ) );
+        } else {
+            $finishTime = date('Y-m-d', strtotime(clearInput($_POST["finishTime"])));
         }
 
 
         //Image
-        $uploadingFileLocation = "C:/xampp/htdocs/Internship/VolunteerProject/uploads/" . $_FILES[ "uploadingFile" ][ "name" ];
+        $uploadingFileLocation = "C:/xampp/htdocs/Internship/VolunteerProject/uploads/" . $_FILES["uploadingFile"]["name"];
 
-        $fileFormat = strtolower( pathinfo( $uploadingFileLocation, PATHINFO_EXTENSION ) );
+        $fileFormat = strtolower(pathinfo($uploadingFileLocation, PATHINFO_EXTENSION));
 
-        if (file_exists( $uploadingFileLocation )) {
+        if (file_exists($uploadingFileLocation)) {
             $imageError = "Uploaded file name is alread exist. Try to rename image";
-        }
-        else if ($_FILES[ "uploadingFile" ][ "size" ] > 500000) {
+        } else if ($_FILES["uploadingFile"]["size"] > 500000) {
             $imageError = "Your image is large. Try to send under 5mb images";
 
-        }
-        else if ($fileFormat != "jpg" && $fileFormat != "png") {
+        } else if ($fileFormat != "jpg" && $fileFormat != "png") {
             $imageError = "Only jpg and png formats allowed";
-        }
-        else if (move_uploaded_file( $_FILES[ "uploadingFile" ][ "tmp_name" ], $uploadingFileLocation )) {
-            $imageName = $_FILES[ "uploadingFile" ][ "name" ];
-        }
-        else {
+        } else if (move_uploaded_file($_FILES["uploadingFile"]["tmp_name"], $uploadingFileLocation)) {
+            $imageName = $_FILES["uploadingFile"]["name"];
+        } else {
             $imageError = "Could not upload your image";
         }
 
         //Gender
-        if ($_POST[ "gender" ] == "") {
+        if ($_POST["gender"] == "") {
             $genderError = "Gender is reqiured";
-        }
-        else {
-            $gender = $_POST[ "gender" ];
+        } else {
+            $gender = $_POST["gender"];
         }
 
         if (empty($nameError) && empty($surnameError) && empty($fatherNameError) && empty($leaderError) && empty($emailError) && empty($phoneNumberError) && empty($startTimeError) && empty($finishTimeError) && empty($imageError) && empty($genderError)) {
             $sql = "UPDATE `volunteerinfos` SET `name`='$name',`surname`='$surname',`fatherName`='$fatherName',`leader`='$leader',`email`='$email',`phoneNumber`='$phoneNumber',`startTime`='$startTime',`finishTime`='$finishTime',`image`='$imageName',`gender`='$gender' WHERE `id` = '$id'";
-            if ($conn->query( $sql ) === TRUE) {
+            if ($conn->query($sql) === TRUE) {
                 $success = "Successfull Operation";
-            }
-            else {
+            } else {
                 $error = "Unsuccesfull Operation";
             }
         }
-    }
-    else {
+    } else {
+        if (!isset($_GET['csrf_token_update']) || $_GET['csrf_token_update'] !== $_SESSION['csrf_token_update']) {
+            // CSRF token doesn't match or is missing, reject the form submission
+            header('HTTP/1.1 400 Bad Request');
+            echo 'CSRF token mismatch';
+            exit;
+        }
+        unset($_SESSION['csrf_token_update']);
+        $token = bin2hex(random_bytes(32));
+        $_SESSION['csrf_token_update'] = $token;
+
         $sql = "SELECT * FROM `volunteerinfos` Where `id` = '$id' ";
 
-        $result = $conn->query( $sql );
+        $result = $conn->query($sql);
 
         while ($row = $result->fetch_assoc()) {
-            $name        = $row[ "name" ];
-            $surname     = $row[ "surname" ];
-            $fatherName  = $row[ "fatherName" ];
-            $leader      = $row[ "leader" ];
-            $email       = $row[ "email" ];
-            $phoneNumber = $row[ "phoneNumber" ];
-            $startTime   = $row[ "startTime" ];
-            $finishTime  = !empty($row[ "finishTime" ]) ? $row[ "finishTime" ] : "";
-            $gender      = $row[ "gender" ];
+            $name = $row["name"];
+            $surname = $row["surname"];
+            $fatherName = $row["fatherName"];
+            $leader = $row["leader"];
+            $email = $row["email"];
+            $phoneNumber = $row["phoneNumber"];
+            $startTime = $row["startTime"];
+            $finishTime = !empty($row["finishTime"]) ? $row["finishTime"] : "";
+            $gender = $row["gender"];
             //$imageName   = $row[ "imageName" ];
         }
     }
@@ -276,6 +282,8 @@ include "C:/xampp/htdocs/Internship/VolunteerProject/admin/includes/head.php";
                         <span class="error">
                             <?php echo $error; ?>
                         </span>
+                        <input type="hidden" name="csrf_token_update"
+                            value="<?php echo $_SESSION['csrf_token_update']; ?>">
                         <div class="button">
                             <input type="submit" value="Yadda saxla">
                         </div>
