@@ -14,7 +14,13 @@ body {
 }
 
 /* ADMINPANEL LOGIN SECTION */
+.container {
+  background-repeat: no-repeat;
+  background-position: center;
+  background-attachment: fixed;
+  height: 968px;
 
+}
 
 .header {
   background: rgb(78, 81, 162);
@@ -477,7 +483,6 @@ main {
 
 .container {
   color: white;
-  max-width: 700px;
   width: 100%;
   padding: 25px 30px;
   border-radius: 5px;
