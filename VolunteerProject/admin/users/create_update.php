@@ -1,7 +1,7 @@
 <?php
 session_start();
-if (!isset($_SESSION[ 'user_login' ])) {
-    header( 'Location: C:/xampp/htdocs/Internship/VolunteerProject/admin/login.php' );
+if (!isset($_SESSION['user_login'])) {
+    header('Location: C:/xampp/htdocs/Internship/VolunteerProject/admin/login.php');
 }
 
 include "../functions/connections.php";
@@ -10,62 +10,60 @@ include "../functions/functions.php";
 $name = $surname = $fatherName = $leader = $email = $phoneNumber = $startTime = $finishTime = $image = $gender = $nameError = $surnameError = $fatherNameError = $leaderError = $emailError = $phoneNumberError = $startTimeError = $finishTimeError = $imageError = $genderError = $success = $error = "";
 
 $inputVars = array(
-    "name"        => "",
-    "surname"     => "",
-    "fatherName"  => "",
-    "leader"      => "",
-    "email"       => "",
+    "name" => "",
+    "surname" => "",
+    "fatherName" => "",
+    "leader" => "",
+    "email" => "",
     "phoneNumber" => "",
-    "startTime"   => "",
-    "finishTIme"  => "",
-    "image"       => "",
-    "gender"      => "",
+    "startTime" => "",
+    "finishTime" => "",
+    "image" => "",
+    "gender" => "",
 );
 $errorVars = array(
-    "nameError"        => "",
-    "surnameError"     => "",
-    "fatherNameError"  => "",
-    "leaderError"      => "",
-    "emailError"       => "",
+    "nameError" => "",
+    "surnameError" => "",
+    "fatherNameError" => "",
+    "leaderError" => "",
+    "emailError" => "",
     "phoneNumberError" => "",
-    "startTimeError"   => "",
-    "finishTimeError"  => "",
-    "imageError"       => "",
-    "genderError"      => "",
-    "error"            => "",
-    "succes"           => "",
+    "startTimeError" => "",
+    "finishTimeError" => "",
+    "imageError" => "",
+    "genderError" => "",
+    "error" => "",
+    "succes" => "",
 );
 
 
-if (isset($_GET[ "id" ])) {
-    $id = $_GET[ "id" ];
-    if ($_SERVER[ "REQUEST_METHOD" ] == "POST") {
-        $query = mysqli_prepare( $conn, "UPDATE `volunteerinfos` SET `name`=?, `surname`=?, `fatherName`=?, `leader`=?, `email`=?, `phoneNumber`=?, `startTime`=?, `finishTime`=?, `image`=?, `gender`=? WHERE `id`=?" );
-        CheckInputsAndExecuteSql( $query, $conn, true );
-    }
-    else {
+if (isset($_GET["id"])) {
+    $id = $_GET["id"];
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        $query = mysqli_prepare($conn, "UPDATE `volunteerinfos` SET `name`=?, `surname`=?, `fatherName`=?, `leader`=?, `email`=?, `phoneNumber`=?, `startTime`=?, `finishTime`=?, `image`=?, `gender`=? WHERE `id`=?");
+        CheckInputsAndExecuteSql($query, $conn, true);
+    } else {
         $sql = "SELECT * FROM `volunteerinfos` Where `id` = '$id' ";
 
-        $result = $conn->query( $sql );
+        $result = $conn->query($sql);
 
         while ($row = $result->fetch_assoc()) {
-            $inputVars[ "name" ]        = $row[ "name" ];
-            $inputVars[ "surname" ]     = $row[ "surname" ];
-            $inputVars[ "fatherName" ]  = $row[ "fatherName" ];
-            $inputVars[ "leader" ]      = $row[ "leader" ];
-            $inputVars[ "email" ]       = $row[ "email" ];
-            $inputVars[ "phoneNumber" ] = $row[ "phoneNumber" ];
-            $inputVars[ "startTime" ]   = $row[ "startTime" ];
-            $inputVars[ "finishTime" ]  = !empty($row[ "finishTime" ]) ? $row[ "finishTime" ] : "";
-            $inputVars[ "gender" ]      = $row[ "gender" ];
+            $inputVars["name"] = $row["name"];
+            $inputVars["surname"] = $row["surname"];
+            $inputVars["fatherName"] = $row["fatherName"];
+            $inputVars["leader"] = $row["leader"];
+            $inputVars["email"] = $row["email"];
+            $inputVars["phoneNumber"] = $row["phoneNumber"];
+            $inputVars["startTime"] = $row["startTime"];
+            $inputVars["finishTime"] = !empty($row["finishTime"]) ? $row["finishTime"] : "";
+            $inputVars["gender"] = $row["gender"];
             //$inputVars[ "image" ]     = $row[ "imageName" ];
         }
     }
-}
-else {
-    if ($_SERVER[ "REQUEST_METHOD" ] == "POST") {
+} else {
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $query = "INSERT INTO `volunteerinfos`(`name`, `surname`, `fatherName`, `leader`, `email`, `phoneNumber`, `startTime`, `finishTime`, `image`, `gender`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        CheckInputsAndExecuteSql( $query, $conn, false );
+        CheckInputsAndExecuteSql($query, $conn, false);
     }
 }
 
@@ -78,48 +76,46 @@ function CheckInputsAndExecuteSql(string $sql, $connection, bool $hasIdSetted)
     global $errorVars;
     $haveError = false;
     foreach ($inputVars as $key => $value) {
-        if ($_POST[ "$key" ] == "") {
-            $errorVars[ "$key" . "Error" ] = preg_replace( '/([a-z])([A-Z])/', '$1 $2', ucfirst( "$key is reqiured" ) );
+        if ($key != "image") {
+            if ($_POST["$key"] == "") {
+                $errorVars["$key" . "Error"] = preg_replace('/([a-z])([A-Z])/', '$1 $2', ucfirst("$key is reqiured"));
+            } else {
+                if ($key == "name" || $key == "surname" || $key == "fatherName" || $key == "leader" || $key == "gender") {
+                    $inputVars[$key] = clearInput($_POST["$key"]);
+                    if (!preg_match('/^[a-zA-ZəƏçÇşŞöÖıİğĞüÜ\s]+$/', $inputVars[$key])) {
+                        $errorVars["$key" . "Error"] = "Only letters allowed";
+                    }
+                } else if ($key == "phoneNumber") {
+                    $inputVars[$key] = clearInput($_POST["$key"]);
+                } else if ($key == "email") {
+                    $inputVars["email"] = $_POST["email"];
+                    if (!filter_var($inputVars["email"], FILTER_VALIDATE_EMAIL)) {
+                        $errorVars["emailError"] = "Invalid email format";
+                    }
+                } else if ($key == "startTime" || $key == "finishTime") {
+                    $inputVars[$key] = date('Y-m-d', strtotime(clearInput($_POST["$key"])));
+                }
+
+            }
+        } else {
+            $imageLocation = "C:/xampp/htdocs/Internship/VolunteerProject/uploads/" . $_FILES["image"]["name"];
+
+            $fileFormat = strtolower(pathinfo($imageLocation, PATHINFO_EXTENSION));
+
+            if (file_exists($imageLocation)) {
+                $errorVars["$key" . "Error"] = "Uploaded file name is alread exist. Try to rename image";
+            } else if ($_FILES["image"]["size"] > 500000) {
+                $errorVars["$key" . "Error"] = "Your image is large. Try to send under 5mb images";
+
+            } else if ($fileFormat != "jpg" && $fileFormat != "png") {
+                $errorVars["$key" . "Error"] = "Only jpg and png formats allowed";
+            } else if (move_uploaded_file($_FILES["image"]["tmp_name"], $imageLocation)) {
+                $inputVars[$key] = $_FILES["image"]["name"];
+            } else {
+                $errorVars["$key" . "Error"] = "Could not upload your image";
+            }
         }
-        else {
-            if ($key == "name" || $key == "surname" || $key == "fatherName" || $key == "leader" || $key == "gender") {
-                $inputVars[ $key ] = clearInput( $_POST[ "$key" ] );
-                if (!preg_match( '/^[a-zA-ZəƏçÇşŞöÖıİğĞüÜ\s]+$/', $inputVars[ $key ] )) {
-                    $errorVars[ "$key" . "Error" ] = "Only letters allowed";
-                }
-            }
-            else if ($key == "email") {
-                if (!filter_var( $inputVars[ $key ], FILTER_VALIDATE_EMAIL )) {
-                    $errorVars[ "$key" . "Error" ] = "Invalid email format";
-                }
-            }
-            else if ($key == "startTime" || $key == "finishTime") {
-                $inputVars[ $key ] = date( 'Y-m-d', strtotime( clearInput( $_POST[ "$key" ] ) ) );
-            }
-            else if ($key == "image") {
-                $uploadingFileLocation = "C:/xampp/htdocs/Internship/VolunteerProject/uploads/" . $_FILES[ "uploadingFile" ][ "name" ];
 
-                $fileFormat = strtolower( pathinfo( $uploadingFileLocation, PATHINFO_EXTENSION ) );
-
-                if (file_exists( $uploadingFileLocation )) {
-                    $errorVars[ "$key" . "Error" ] = "Uploaded file name is alread exist. Try to rename image";
-                }
-                else if ($_FILES[ "uploadingFile" ][ "size" ] > 500000) {
-                    $errorVars[ "$key" . "Error" ] = "Your image is large. Try to send under 5mb images";
-
-                }
-                else if ($fileFormat != "jpg" && $fileFormat != "png") {
-                    $errorVars[ "$key" . "Error" ] = "Only jpg and png formats allowed";
-                }
-                else if (move_uploaded_file( $_FILES[ "uploadingFile" ][ "tmp_name" ], $uploadingFileLocation )) {
-                    $inputVars[ $key ] = $_FILES[ "uploadingFile" ][ "name" ];
-                }
-                else {
-                    $errorVars[ "$key" . "Error" ] = "Could not upload your image";
-                }
-            }
-
-        }
     }
     foreach ($errorVars as $value) {
         if ($value != "") {
@@ -128,139 +124,19 @@ function CheckInputsAndExecuteSql(string $sql, $connection, bool $hasIdSetted)
         }
     }
     if (!$haveError) {
-        $stmt = mysqli_prepare( $connection, $sql );
+        $stmt = mysqli_prepare($connection, $sql);
         if ($hasIdSetted) {
-            mysqli_stmt_bind_param( $stmt, "ssssssssssi", $inputVars[ "name" ], $inputVars[ "surname" ], $inputVars[ "fatherName" ], $inputVars[ "leader" ], $inputVars[ "email" ], $inputVars[ "phoneNumber" ], $inputVars[ "startTime" ], $inputVars[ "finishTime" ], $inputVars[ "imageName" ], $inputVars[ "gender" ], $_GET[ "id" ] );
-        }
-        else {
-            mysqli_stmt_bind_param( $stmt, "ssssssssss", $inputVars[ "name" ], $inputVars[ "surname" ], $inputVars[ "fatherName" ], $inputVars[ "leader" ], $inputVars[ "email" ], $inputVars[ "phoneNumber" ], $inputVars[ "startTime" ], $inputVars[ "finishTime" ], $inputVars[ "image" ], $inputVars[ "gender" ] );
+            mysqli_stmt_bind_param($stmt, "ssssssssssi", $inputVars["name"], $inputVars["surname"], $inputVars["fatherName"], $inputVars["leader"], $inputVars["email"], $inputVars["phoneNumber"], $inputVars["startTime"], $inputVars["finishTime"], $inputVars["imageName"], $inputVars["gender"], $_GET["id"]);
+        } else {
+            mysqli_stmt_bind_param($stmt, "ssssssssss", $inputVars["name"], $inputVars["surname"], $inputVars["fatherName"], $inputVars["leader"], $inputVars["email"], $inputVars["phoneNumber"], $inputVars["startTime"], $inputVars["finishTime"], $inputVars["image"], $inputVars["gender"]);
         }
 
-        if (mysqli_stmt_execute( $stmt )) {
-            $errorVars[ "succes" ] = "Successfull Operation";
-        }
-        else {
-            $errorVars[ "error" ] = "Unsuccesfull Operation";
+        if (mysqli_stmt_execute($stmt)) {
+            $errorVars["succes"] = "Successfull Operation";
+        } else {
+            $errorVars["error"] = "Unsuccesfull Operation";
         }
     }
-    // //Name
-    // if ($_POST[ 'name' ] == '') {
-    //     $nameError = "Name is required";
-    // }
-    // else {
-    //     $name = clearInput( $_POST[ "name" ] );
-    //     if (!preg_match( '/^[a-zA-ZəƏçÇşŞöÖıİğĞüÜ\s]+$/', $name )) {
-    //         $nameError = "Only letters allowed";
-    //     }
-    // }
-
-    // //Surname
-    // if ($_POST[ 'surname' ] == '') {
-    //     $surnameError = "Surname is required";
-    // }
-    // else {
-    //     $surname = clearInput( $_POST[ "surname" ] );
-    //     if (!preg_match( '/^[a-zA-ZəƏçÇşŞöÖıİğĞüÜ\s]+$/', $surname )) {
-    //         $surnameError = "Only letters allowed";
-    //     }
-    // }
-
-    // //Father Name
-    // if ($_POST[ 'fatherName' ] == '') {
-    //     $fatherNameError = "Father name is required";
-    // }
-    // else {
-    //     $fatherName = clearInput( $_POST[ "fatherName" ] );
-    //     if (!preg_match( '/^[a-zA-ZəƏçÇşŞöÖıİğĞüÜ\s]+$/', $fatherName )) {
-    //         $fatherNameError = "Only letters allowed";
-    //     }
-    // }
-
-    // //Leader
-    // if ($_POST[ 'leader' ] == '') {
-    //     $leaderError = "Leader is required";
-    // }
-    // else {
-    //     $leader = clearInput( $_POST[ "leader" ] );
-    //     if (!preg_match( '/^[a-zA-ZəƏçÇşŞöÖıİğĞüÜ\s]+$/', $leader )) {
-    //         $leaderError = "Only letters allowed";
-    //     }
-    // }
-
-    // //Email
-    // if ($_POST[ "email" ] == "") {
-    //     $emailError = "Email is required";
-    // }
-    // else {
-    //     $email = clearInput( $_POST[ "email" ] );
-    //     if (!filter_var( $email, FILTER_VALIDATE_EMAIL )) {
-    //         $emailError = "Invalid email format";
-    //     }
-    // }
-
-    // //Phone Number
-    // if ($_POST[ "phoneNumber" ] == "") {
-    //     $phoneNumberError = "Phone number is reqiured";
-    // }
-    // else {
-    //     $phoneNumber = clearInput( $_POST[ "phoneNumber" ] );
-    // }
-
-    // //Start Time
-    // if ($_POST[ "startTime" ] == "") {
-    //     $startTimeError = "Start time is reqiured";
-    // }
-    // else {
-    //     $startTime = date( 'Y-m-d', strtotime( clearInput( $_POST[ "startTime" ] ) ) );
-    // }
-
-    // //Finish Time
-    // if ($_POST[ "finishTime" ] == "") {
-    //     $finishError = "Finish time is reqiured";
-    // }
-    // else {
-    //     $finishTime = date( 'Y-m-d', strtotime( clearInput( $_POST[ "finishTime" ] ) ) );
-    // }
-
-    // //Image
-    // $uploadingFileLocation = "C:/xampp/htdocs/Internship/VolunteerProject/uploads/" . $_FILES[ "uploadingFile" ][ "name" ];
-
-    // $fileFormat = strtolower( pathinfo( $uploadingFileLocation, PATHINFO_EXTENSION ) );
-
-    // if (file_exists( $uploadingFileLocation )) {
-    //     $imageError = "Uploaded file name is alread exist. Try to rename image";
-    // }
-    // else if ($_FILES[ "uploadingFile" ][ "size" ] > 500000) {
-    //     $imageError = "Your image is large. Try to send under 5mb images";
-
-    // }
-    // else if ($fileFormat != "jpg" && $fileFormat != "png") {
-    //     $imageError = "Only jpg and png formats allowed";
-    // }
-    // else if (move_uploaded_file( $_FILES[ "uploadingFile" ][ "tmp_name" ], $uploadingFileLocation )) {
-    //     $image = $_FILES[ "uploadingFile" ][ "name" ];
-    // }
-    // else {
-    //     $imageError = "Could not upload your image";
-    // }
-
-    // //Gender
-    // if ($_POST[ "gender" ] == "") {
-    //     $genderError = "Gender is reqiured";
-    // }
-    // else {
-    //     $gender = $_POST[ "gender" ];
-    // }
-
-
-    // if (empty($nameError) && empty($surnameError) && empty($fatherNameError) && empty($leaderError) && empty($emailError) && empty($phoneNumberError) && empty($startTimeError) && empty($finishTimeError) && empty($imageError) && empty($genderError)) {
-    //     if ($connection->query( $sql ) === TRUE) {
-    //         $success = "Successfull Operation";
-    //     }
-    //     else {
-    //         $error = "Unsuccesfull Operation";
-    //     }
-    // }
 }
 
 ?>
@@ -292,83 +168,82 @@ include "C:/xampp/htdocs/Internship/VolunteerProject/admin/includes/head.php";
                         <div class="user-details">
                             <div class="input-box">
                                 <span class="details">Ad <span class="error">*
-                                        <?php echo $errorVars[ "nameError" ] ?>
+                                        <?php echo $errorVars["nameError"] ?>
                                     </span></span>
 
-                                <input type="text" name="name" value="<?php echo $inputVars[ "name" ] ?>" required>
+                                <input type="text" name="name" value="<?php echo $inputVars["name"] ?>" required>
                             </div>
                             <div class="input-box">
                                 <span class="details">Soyad <span class="error">*
-                                        <?php echo $errorVars[ "surnameError" ] ?>
+                                        <?php echo $errorVars["surnameError"] ?>
                                     </span> </span>
 
-                                <input type="text" name="surname" value="<?php echo $inputVars[ "surname" ] ?>"
-                                    required>
+                                <input type="text" name="surname" value="<?php echo $inputVars["surname"] ?>" required>
                             </div>
                             <div class="input-box">
                                 <span class="details">Ata adı <span class="error">*
-                                        <?php echo $errorVars[ "fatherNameError" ] ?>
+                                        <?php echo $errorVars["fatherNameError"] ?>
                                     </span></span>
 
-                                <input type="text" name="fatherName" value="<?php echo $inputVars[ "fatherName" ] ?>"
+                                <input type="text" name="fatherName" value="<?php echo $inputVars["fatherName"] ?>"
                                     required>
                             </div>
                             <div class="input-box">
                                 <span class="details">Rəhbər <span class="error">*
-                                        <?php echo $errorVars[ "leaderError" ] ?>
+                                        <?php echo $errorVars["leaderError"] ?>
                                     </span></span>
 
-                                <input type="text" name="leader" value="<?php echo $inputVars[ "leader" ] ?>" required>
+                                <input type="text" name="leader" value="<?php echo $inputVars["leader"] ?>" required>
                             </div>
                             <div class="input-box">
                                 <span class="details">Email <span class="error">*
-                                        <?php echo $errorVars[ "emailError" ] ?>
+                                        <?php echo $errorVars["emailError"] ?>
                                     </span></span>
 
-                                <input type="text" name="email" value="<?php echo $inputVars[ "email" ] ?>" required>
+                                <input type="text" name="email" value="<?php echo $inputVars["email"] ?>" required>
                             </div>
                             <div class="input-box">
                                 <span class="details">Telefon nömrəsi <span class="error">*
-                                        <?php echo $errorVars[ "phoneNumberError" ] ?>
+                                        <?php echo $errorVars["phoneNumberError"] ?>
                                     </span></span>
 
-                                <input type="text" name="phoneNumber" value="<?php echo $inputVars[ "phoneNumber" ] ?>"
+                                <input type="text" name="phoneNumber" value="<?php echo $inputVars["phoneNumber"] ?>"
                                     required>
                             </div>
                             <div class="input-box">
                                 <span class="details">Başlama tarixi <span class="error">*
-                                        <?php echo $errorVars[ "startTimeError" ] ?>
+                                        <?php echo $errorVars["startTimeError"] ?>
                                     </span></span>
 
-                                <input type="date" name="startTime" value="<?php echo $inputVars[ "startTime" ] ?>"
+                                <input type="date" name="startTime" value="<?php echo $inputVars["startTime"] ?>"
                                     required>
                             </div>
                             <div class="input-box">
                                 <span class="details">Bitirmə tarixi <span class="error">*
-                                        <?php echo $errorVars[ "finishTimeError" ] ?>
+                                        <?php echo $errorVars["finishTimeError"] ?>
                                     </span></span>
 
-                                <input type="date" name="finishTime" value="<?php echo $inputVars[ "finishTime" ] ?>"
+                                <input type="date" name="finishTime" value="<?php echo $inputVars["finishTime"] ?>"
                                     required>
                             </div>
                             <div class="input-box">
                                 <span class="details">Foto şəkil <span class="error">*
-                                        <?php echo $errorVars[ "imageError" ] ?>
+                                        <?php echo $errorVars["imageError"] ?>
                                     </span></span>
 
                                 <input class="file-selector-button" style="border: none !important; height: 30px;"
-                                    type="file" name="uploadingFile" required>
+                                    type="file" name="image" required>
                             </div>
                         </div>
                         <div class="gender-details">
-                            <input type="radio" name="gender" value="Kişi" <?php if ($inputVars[ "gender" ] == "Kişi") {
+                            <input type="radio" name="gender" value="Kişi" <?php if ($inputVars["gender"] == "Kişi") {
                                 echo "checked";
                             } ?> id="dot-1">
-                            <input type="radio" name="gender" value="Qadın" <?php if ($inputVars[ "gender" ] == "Qadın") {
+                            <input type="radio" name="gender" value="Qadın" <?php if ($inputVars["gender"] == "Qadın") {
                                 echo "checked";
                             } ?> id="dot-2">
                             <span class="gender-title">Cinsiyyət <span class="error">*
-                                    <?php echo $errorVars[ "genderError" ] ?>
+                                    <?php echo $errorVars["genderError"] ?>
                                 </span></span>
 
                             <div class="category">
@@ -383,10 +258,10 @@ include "C:/xampp/htdocs/Internship/VolunteerProject/admin/includes/head.php";
                             </div>
                         </div>
                         <span class="succes">
-                            <?php echo $success; ?>
+                            <?php echo $errorVars["succes"]; ?>
                         </span>
                         <span class="error">
-                            <?php echo $error; ?>
+                            <?php echo $errorVars["error"]; ?>
                         </span>
                         <div class="button">
                             <input type="submit" value="Yadda saxla">

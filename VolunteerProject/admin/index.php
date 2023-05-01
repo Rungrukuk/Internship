@@ -110,7 +110,7 @@ include "C:/xampp/htdocs/Internship/VolunteerProject/admin/includes/head.php";
                   <?php echo $row[ "finishTime" ] ?>
                 </td>
                 <td>
-                  <?php echo $row[ "imageName" ] ?>
+                  <?php echo $row[ "image" ] ?>
                 </td>
                 <td>
                   <?php echo $row[ "gender" ] ?>
