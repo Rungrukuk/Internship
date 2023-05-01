@@ -96,7 +96,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
   $uploadingFileLocation = "C:/xampp/htdocs/Internship/VolunteerProject/uploads/" . $_FILES["uploadingFile"]["name"];
 
   $fileFormat = strtolower(pathinfo($uploadingFileLocation, PATHINFO_EXTENSION));
-
+  $imageName = $_FILES["uploadingFile"]["name"];
   if (file_exists($uploadingFileLocation)) {
     $imageError = "Uploaded file name is alread exist. Try to rename image";
   } else if ($_FILES["uploadingFile"]["size"] > 500000) {
@@ -104,8 +104,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
   } else if ($fileFormat != "jpg" && $fileFormat != "png") {
     $imageError = "Only jpg and png formats allowed";
-  } else if (move_uploaded_file($_FILES["uploadingFile"]["tmp_name"], $uploadingFileLocation)) {
-    $imageName = $_FILES["uploadingFile"]["name"];
   } else {
     $imageError = "Could not upload your image";
   }
@@ -120,14 +118,18 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
   if (empty($nameError) && empty($surnameError) && empty($fatherNameError) && empty($leaderError) && empty($emailError) && empty($phoneNumberError) && empty($startTimeError) && empty($finishTimeError) && empty($imageError) && empty($genderError)) {
     $sql = "INSERT INTO `volunteerinfos`(`name`, `surname`, `fatherName`, `leader`, `email`, `phoneNumber`, `startTime`, `finishTime`, `image`, `gender`) VALUES ('$name','$surname','$fatherName','$leader','$email','$phoneNumber','$startTime','$finishTime','$imageName','$gender')";
-    if ($conn->query($sql) === TRUE) {
-      $success = "Successfull Operation";
+    if (move_uploaded_file($_FILES["uploadingFile"]["tmp_name"], $uploadingFileLocation)) {
+      if ($conn->query($sql) === TRUE) {
+        $success = "Successfull Operation";
+      } else {
+        $error = "Unsuccesfull Operation";
+      }
     } else {
       $error = "Unsuccesfull Operation";
     }
+
   }
-}
-else{
+} else {
   $token = bin2hex(random_bytes(32));
   $_SESSION['csrf_token_create'] = $token;
 }

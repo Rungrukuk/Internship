@@ -102,7 +102,7 @@ if (isset($_GET["id"])) {
         $uploadingFileLocation = "C:/xampp/htdocs/Internship/VolunteerProject/uploads/" . $_FILES["uploadingFile"]["name"];
 
         $fileFormat = strtolower(pathinfo($uploadingFileLocation, PATHINFO_EXTENSION));
-
+        $imageName = $_FILES["uploadingFile"]["name"];
         if (file_exists($uploadingFileLocation)) {
             $imageError = "Uploaded file name is alread exist. Try to rename image";
         } else if ($_FILES["uploadingFile"]["size"] > 500000) {
@@ -110,8 +110,6 @@ if (isset($_GET["id"])) {
 
         } else if ($fileFormat != "jpg" && $fileFormat != "png") {
             $imageError = "Only jpg and png formats allowed";
-        } else if (move_uploaded_file($_FILES["uploadingFile"]["tmp_name"], $uploadingFileLocation)) {
-            $imageName = $_FILES["uploadingFile"]["name"];
         } else {
             $imageError = "Could not upload your image";
         }
@@ -125,8 +123,12 @@ if (isset($_GET["id"])) {
 
         if (empty($nameError) && empty($surnameError) && empty($fatherNameError) && empty($leaderError) && empty($emailError) && empty($phoneNumberError) && empty($startTimeError) && empty($finishTimeError) && empty($imageError) && empty($genderError)) {
             $sql = "UPDATE `volunteerinfos` SET `name`='$name',`surname`='$surname',`fatherName`='$fatherName',`leader`='$leader',`email`='$email',`phoneNumber`='$phoneNumber',`startTime`='$startTime',`finishTime`='$finishTime',`image`='$imageName',`gender`='$gender' WHERE `id` = '$id'";
-            if ($conn->query($sql) === TRUE) {
-                $success = "Successfull Operation";
+            if (move_uploaded_file($_FILES["uploadingFile"]["tmp_name"], $uploadingFileLocation)) {
+                if ($conn->query($sql) === TRUE) {
+                    $success = "Successfull Operation";
+                } else {
+                    $error = "Unsuccesfull Operation";
+                }
             } else {
                 $error = "Unsuccesfull Operation";
             }
