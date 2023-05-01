@@ -1,12 +1,12 @@
 <?php
 include "functions/connections.php";
 session_start();
-if (!isset($_SESSION[ 'user_login' ])) {
-    header( 'Location: C:/xampp/htdocs/Internship/VolunteerProject/admin/login.php' );
+if (!isset($_SESSION['user_login'])) {
+    header('Location: C:/xampp/htdocs/Internship/VolunteerProject/admin/login.php');
 }
 $sql = "SELECT * FROM volunteerinfos";
 
-$result = $conn->query( $sql );
+$result = $conn->query($sql);
 ?>
 
 
@@ -54,40 +54,40 @@ include "C:/xampp/htdocs/Internship/VolunteerProject/admin/includes/head.php";
                             ?>
                             <tr>
                                 <td>
-                                    <?php echo $row[ "id" ] ?>
+                                    <?php echo $row["id"] ?>
                                 </td>
                                 <td>
-                                    <?php echo $row[ "name" ] ?>
+                                    <?php echo $row["name"] ?>
                                 </td>
                                 <td>
-                                    <?php echo $row[ "surname" ] ?>
+                                    <?php echo $row["surname"] ?>
                                 </td>
                                 <td>
-                                    <?php echo $row[ "fatherName" ] ?>
+                                    <?php echo $row["fatherName"] ?>
                                 </td>
                                 <td>
-                                    <?php echo $row[ "leader" ] ?>
+                                    <?php echo $row["leader"] ?>
                                 </td>
                                 <td>
-                                    <?php echo $row[ "email" ] ?>
+                                    <?php echo $row["email"] ?>
                                 </td>
                                 <td>
-                                    <?php echo $row[ "phoneNumber" ] ?>
+                                    <?php echo $row["phoneNumber"] ?>
                                 </td>
                                 <td>
-                                    <?php echo $row[ "startTime" ] ?>
+                                    <?php echo $row["startTime"] ?>
                                 </td>
                                 <td>
-                                    <?php echo $row[ "finishTime" ] ?>
+                                    <?php echo $row["finishTime"] ?>
                                 </td>
                                 <td>
-                                    <?php echo $row[ "image" ] ?>
+                                    <?php echo $row["image"] ?>
                                 </td>
                                 <td>
-                                    <?php echo $row[ "gender" ] ?>
+                                    <?php echo $row["gender"] ?>
                                 </td>
-                                <td><a href="users/update.php?id=<?php echo $row[ "id" ] ?>">Update</a></td>
-                                <td><a href="users/delete.php?id=<?php echo $row[ "id" ] ?>">Delete</a></td>
+                                <td><a href="users/create_update.php?id=<?php echo $row["id"] ?>">Update</a></td>
+                                <td><a href="users/delete.php?id=<?php echo $row["id"] ?>">Delete</a></td>
                             </tr>
                             <?php
                         }
