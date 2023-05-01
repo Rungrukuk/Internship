@@ -127,7 +127,7 @@ if ($_SERVER[ "REQUEST_METHOD" ] == "POST") {
 
 
   if (empty($nameError) && empty($surnameError) && empty($fatherNameError) && empty($leaderError) && empty($emailError) && empty($phoneNumberError) && empty($startTimeError) && empty($finishTimeError) && empty($imageError) && empty($genderError)) {
-    $sql = "INSERT INTO `volunteerinfos`(`name`, `surname`, `fatherName`, `leader`, `email`, `phoneNumber`, `startTime`, `finishTime`, `imageName`, `gender`) VALUES ('$name','$surname','$fatherName','$leader','$email','$phoneNumber','$startTime','$finishTime','$imageName','$gender')";
+    $sql = "INSERT INTO `volunteerinfos`(`name`, `surname`, `fatherName`, `leader`, `email`, `phoneNumber`, `startTime`, `finishTime`, `image`, `gender`) VALUES ('$name','$surname','$fatherName','$leader','$email','$phoneNumber','$startTime','$finishTime','$imageName','$gender')";
     if ($conn->query( $sql ) === TRUE) {
       $success = "Successfull Operation";
     }

@@ -126,7 +126,7 @@ if (isset($_GET[ "id" ])) {
         }
 
         if (empty($nameError) && empty($surnameError) && empty($fatherNameError) && empty($leaderError) && empty($emailError) && empty($phoneNumberError) && empty($startTimeError) && empty($finishTimeError) && empty($imageError) && empty($genderError)) {
-            $sql = "UPDATE `volunteerinfos` SET `name`='$name',`surname`='$surname',`fatherName`='$fatherName',`leader`='$leader',`email`='$email',`phoneNumber`='$phoneNumber',`startTime`='$startTime',`finishTime`='$finishTime',`imageName`='$imageName',`gender`='$gender' WHERE `id` = '$id'";
+            $sql = "UPDATE `volunteerinfos` SET `name`='$name',`surname`='$surname',`fatherName`='$fatherName',`leader`='$leader',`email`='$email',`phoneNumber`='$phoneNumber',`startTime`='$startTime',`finishTime`='$finishTime',`image`='$imageName',`gender`='$gender' WHERE `id` = '$id'";
             if ($conn->query( $sql ) === TRUE) {
                 $success = "Successfull Operation";
             }

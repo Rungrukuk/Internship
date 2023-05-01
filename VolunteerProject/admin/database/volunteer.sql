@@ -60,7 +60,7 @@ CREATE TABLE `volunteerinfos` (
   `phoneNumber` varchar(255) NOT NULL,
   `startTime` date NOT NULL,
   `finishTime` date DEFAULT NULL,
-  `imageName` varchar(255) NOT NULL,
+  `image` varchar(255) NOT NULL,
   `gender` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -68,7 +68,7 @@ CREATE TABLE `volunteerinfos` (
 -- Dumping data for table `volunteerinfos`
 --
 
-INSERT INTO `volunteerinfos` (`id`, `name`, `surname`, `fatherName`, `leader`, `email`, `phoneNumber`, `startTime`, `finishTime`, `imageName`, `gender`) VALUES
+INSERT INTO `volunteerinfos` (`id`, `name`, `surname`, `fatherName`, `leader`, `email`, `phoneNumber`, `startTime`, `finishTime`, `image`, `gender`) VALUES
 (2, 'Test', 'Test', 'Test', 'Test Testov', 'Test@gmail.com', 'TestNumber', '2023-03-07', '2023-06-07', 'user3.png', 'Qadın'),
 (6, 'SecondTest', 'SecondTest', 'SecondTest', 'SecondTest', 'SecondTest@gmail.com', 'SecondTest', '2023-01-01', '2023-09-26', 'user4.png', 'Kişi');
 
