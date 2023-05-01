@@ -4,36 +4,35 @@ include "functions/functions.php";
 
 $username = $password = $usernameError = $passwordError = $loginError = "";
 
-if ($_SERVER["REQUEST_METHOD"] == "POST"){
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-    if($_POST['username'] == '') {
+    if ($_POST['username'] == '') {
         $usernameError = "Username is required";
-    }else{
-    $username = clearInput($_POST["username"]);
-    if (!preg_match("/^[a-z A-Z' ]*$/",$username)) {
-        $usernameError = "Only letters allowed";
-      }
-     }
+    } else {
+        $username = clearInput($_POST["username"]);
+        if (!preg_match("/^[a-z A-Z' ]*$/", $username)) {
+            $usernameError = "Only letters allowed";
+        }
+    }
 
-if($_POST['password'] == '') {
-   $passwordError = "Password is required";
-}else{ 
-    $password = md5($_POST["password"]);
-}
+    if ($_POST['password'] == '') {
+        $passwordError = "Password is required";
+    } else {
+        $password = md5($_POST["password"]);
+    }
 
-if($usernameError == "" and $passwordError == ""){
+    if ($usernameError == "" and $passwordError == "") {
 
-    $sql_login = "SELECT * FROM users WHERE `username` = '$username' and `password` = '$password'";
+        $sql_login = "SELECT * FROM users WHERE `username` = '$username' and `password` = '$password'";
 
-    $result = mysqli_query($conn,$sql_login);
-    
-    if(mysqli_num_rows($result) > 0){
-        
+        $result = mysqli_query($conn, $sql_login);
+
+        if (mysqli_num_rows($result) > 0) {
+
             session_start();
             $_SESSION['user_login'] = 'yes';
             header('Location: index.php');
-        }
-        else{
+        } else {
             $loginError = "Username or Password is wrong";
         }
     }
@@ -46,6 +45,7 @@ if($usernameError == "" and $passwordError == ""){
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -55,9 +55,12 @@ if($usernameError == "" and $passwordError == ""){
     <script src="assets/main.js"></script>
     <script src="https://kit.fontawesome.com/da3bb39bb1.js" crossorigin="anonymous"></script>
     <style>
-.error {color: #FF0000;}
-</style>
+        .error {
+            color: #FF0000;
+        }
+    </style>
 </head>
+
 <body>
     <div class="container">
         <header class="header">
@@ -67,19 +70,26 @@ if($usernameError == "" and $passwordError == ""){
         <main class="main">
             <div class="inputArea">
                 <form id="form" action="" method="post">
-                    <span class="error">* <?php echo $usernameError;?></span>
+                    <span class="error">*
+                        <?php echo $usernameError; ?>
+                    </span>
                     <p id="userName">Username</p>
-                    <input class="userArea" name="username" type="text" value="<?php echo $username;?>">
+                    <input class="userArea" name="username" type="text" value="<?php echo $username; ?>">
                     <i class="fa-regular fa-user" style="color: #000000;"></i>
-                    <span class="error">* <?php echo $passwordError;?></span>
+                    <span class="error">*
+                        <?php echo $passwordError; ?>
+                    </span>
                     <p id="passWord">Password</p>
                     <input class="passArea" id="password" name="password" type="password">
                     <img id="passLogo" src="assets/image/Vector.png">
                     <img id="eyeIconHide" class="hide" onclick="hiden()" src="assets/image/hide.png">
                     <img id="eyeIconView" class="view" onclick="viewer()" src="assets/image/view.png"><br>
-                    <span class="error">* <?php echo $loginError;?></span>
+                    <span class="error">*
+                        <?php echo $loginError; ?>
+                    </span>
                     <div class="rememberMe">
-                        <input type="checkbox" value="lsRememberMe" id="rememberMe"> <label for="rememberMe">Remember me</label><br>
+                        <input type="checkbox" value="lsRememberMe" id="rememberMe"> <label for="rememberMe">Remember
+                            me</label><br>
                         <input class="loginButton" type="submit" value="Login" onclick="lsRememberMe()">
                     </div>
                 </form>
@@ -87,4 +97,5 @@ if($usernameError == "" and $passwordError == ""){
         </main>
     </div>
 </body>
+
 </html>

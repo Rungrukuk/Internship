@@ -110,8 +110,6 @@ if (isset($_GET["id"])) {
 
         } else if ($fileFormat != "jpg" && $fileFormat != "png") {
             $imageError = "Only jpg and png formats allowed";
-        } else {
-            $imageError = "Could not upload your image";
         }
 
         //Gender
@@ -130,7 +128,7 @@ if (isset($_GET["id"])) {
                     $error = "Unsuccesfull Operation";
                 }
             } else {
-                $error = "Unsuccesfull Operation";
+                $imageError = "Could not upload your image";
             }
         }
     } else {

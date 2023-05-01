@@ -104,8 +104,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
   } else if ($fileFormat != "jpg" && $fileFormat != "png") {
     $imageError = "Only jpg and png formats allowed";
-  } else {
-    $imageError = "Could not upload your image";
   }
 
   //Gender
@@ -125,7 +123,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $error = "Unsuccesfull Operation";
       }
     } else {
-      $error = "Unsuccesfull Operation";
+      $imageError = "Could not upload your image";
     }
 
   }
@@ -167,56 +165,56 @@ include "C:/xampp/htdocs/Internship/VolunteerProject/admin/includes/head.php";
                     <?php echo $nameError ?>
                   </span></span>
 
-                <input type="text" name="name" value="<?php echo $name ?>" required>
+                <input type="text" name="name" value="<?php echo $name ?>" >
               </div>
               <div class="input-box">
                 <span class="details">Soyad <span class="error">*
                     <?php echo $surnameError ?>
                   </span> </span>
 
-                <input type="text" name="surname" value="<?php echo $surname ?>" required>
+                <input type="text" name="surname" value="<?php echo $surname ?>" >
               </div>
               <div class="input-box">
                 <span class="details">Ata adı <span class="error">*
                     <?php echo $fatherNameError ?>
                   </span></span>
 
-                <input type="text" name="fatherName" value="<?php echo $fatherName ?>" required>
+                <input type="text" name="fatherName" value="<?php echo $fatherName ?>" >
               </div>
               <div class="input-box">
                 <span class="details">Rəhbər <span class="error">*
                     <?php echo $leaderError ?>
                   </span></span>
 
-                <input type="text" name="leader" value="<?php echo $leader ?>" required>
+                <input type="text" name="leader" value="<?php echo $leader ?>" >
               </div>
               <div class="input-box">
                 <span class="details">Email <span class="error">*
                     <?php echo $emailError ?>
                   </span></span>
 
-                <input type="text" name="email" value="<?php echo $email ?>" required>
+                <input type="text" name="email" value="<?php echo $email ?>" >
               </div>
               <div class="input-box">
                 <span class="details">Telefon nömrəsi <span class="error">*
                     <?php echo $phoneNumberError ?>
                   </span></span>
 
-                <input type="text" name="phoneNumber" value="<?php echo $phoneNumber ?>" required>
+                <input type="text" name="phoneNumber" value="<?php echo $phoneNumber ?>" >
               </div>
               <div class="input-box">
                 <span class="details">Başlama tarixi <span class="error">*
                     <?php echo $startTimeError ?>
                   </span></span>
 
-                <input type="date" name="startTime" required>
+                <input type="date" name="startTime" value="<?php echo $startTime ?>" >
               </div>
               <div class="input-box">
                 <span class="details">Bitirmə tarixi <span class="error">*
                     <?php echo $finishTimeError ?>
                   </span></span>
 
-                <input type="date" name="finishTime" required>
+                <input type="date" name="finishTime" value="<?php echo $finishTime ?>" >
               </div>
               <div class="input-box">
                 <span class="details">Foto şəkil <span class="error">*
@@ -224,12 +222,16 @@ include "C:/xampp/htdocs/Internship/VolunteerProject/admin/includes/head.php";
                   </span></span>
 
                 <input class="file-selector-button" style="border: none !important; height: 30px;" type="file"
-                  name="uploadingFile" required>
+                  name="uploadingFile" >
               </div>
             </div>
             <div class="gender-details">
-              <input type="radio" name="gender" value="Kişi" id="dot-1">
-              <input type="radio" name="gender" value="Qadın" id="dot-2">
+              <input type="radio" name="gender" value="Kişi" <?php if ($gender == "Kişi") {
+                echo "checked";
+              } ?> id="dot-1">
+              <input type="radio" name="gender" value="Qadın" <?php if ($gender == "Qadın") {
+                echo "checked";
+              } ?> id="dot-2">
               <span class="gender-title">Cinsiyyət <span class="error">*
                   <?php echo $genderError ?>
                 </span></span>
@@ -251,7 +253,7 @@ include "C:/xampp/htdocs/Internship/VolunteerProject/admin/includes/head.php";
             <span class="error">
               <?php echo $error; ?>
             </span>
-            <input type="hidden" name="csrf_token_create" value="<?php echo $token ?>">
+            <input type="hidden" name="csrf_token_create" value="<?php echo $token; ?>">
             <div class="button">
               <input type="submit" value="Yadda saxla">
             </div>
