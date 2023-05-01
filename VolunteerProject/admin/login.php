@@ -54,43 +54,37 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <title>Document</title>
     <script src="assets/main.js"></script>
     <script src="https://kit.fontawesome.com/da3bb39bb1.js" crossorigin="anonymous"></script>
-    <style>
-        .error {
-            color: #FF0000;
-        }
-    </style>
 </head>
 
 <body>
     <div class="login-container">
         <header class="header">
             <img id="logo" src="assets/image/121.png" alt="logo">
-            <span class="title">İslahat Könüllülərinin İdarəetmə sistemi</span>
+            <span id="title">İslahat Könüllülərinin İdarəetmə sistemi</span>
         </header>
         <main class="main">
             <div class="inputArea">
                 <form id="form" action="" method="post">
-                    <span class="error">*
-                        <?php echo $usernameError; ?>
-                    </span>
+                    
                     <p id="userName">Username</p>
                     <input class="userArea" name="username" type="text" value="<?php echo $username; ?>">
                     <i class="fa-regular fa-user" style="color: #000000;"></i>
                     <span class="error">*
-                        <?php echo $passwordError; ?>
+                        <?php echo $usernameError; ?>
                     </span>
                     <p id="passWord">Password</p>
                     <input class="passArea" id="password" name="password" type="password">
                     <img id="passLogo" src="assets/image/Vector.png">
                     <img id="eyeIconHide" class="hide" onclick="hiden()" src="assets/image/hide.png">
-                    <img id="eyeIconView" class="view" onclick="viewer()" src="assets/image/view.png"><br>
-                    <span class="error">*
-                        <?php echo $loginError; ?>
+                    <img id="eyeIconView" class="view" onclick="viewer()" src="assets/image/view.png">
+                    <span class="error0">*
+                        <?php echo $passwordError; ?>
                     </span>
                     <div class="rememberMe">
                         <input type="checkbox" value="lsRememberMe" id="rememberMe"> <label for="rememberMe">Remember
                             me</label><br>
                         <input class="loginButton" type="submit" value="Login" onclick="lsRememberMe()">
+                        
                     </div>
                 </form>
             </div>

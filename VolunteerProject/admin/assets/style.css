@@ -13,7 +13,19 @@ body {
   background-color: #39394B;
 }
 
+
+
 /* ADMINPANEL LOGIN SECTION */
+.error {
+  color: #ff1a5b;
+  margin-left: 37px;
+}
+
+.error0{
+  color: #ff1a5b;
+  margin-left: 10px;
+}
+
 .login-container {
   background-image: url(image/background.webp);
   background-repeat: no-repeat;
@@ -25,17 +37,18 @@ body {
 .header {
   background: rgb(78, 81, 162);
   background: linear-gradient(90deg, rgba(78, 81, 162, 1) 14%, rgba(34, 35, 98, 1) 50%);
-  height: 50px;
+  height: 79px;
   background-color: #4E51A2;
 }
 
 #logo {
-  width: 157px;
-  height: 46px;
+  width: 237px;
+  height: 78px;
 }
 
 #title {
-  position: absolute;
+  /* position: absolute; */
+  margin: 20px 0 0 470px;
   font-style: normal;
   font-weight: 400;
   font-size: 28px;
@@ -54,7 +67,7 @@ body {
   margin: auto;
   margin-top: 100px;
   width: 304px;
-  height: 327px;
+  height: 354px;
   background: rgb(78, 81, 162);
   background: linear-gradient(90deg, rgba(78, 81, 162, 1) 27%, rgba(46, 45, 120, 1) 75%);
   border-radius: 50px;
@@ -105,7 +118,7 @@ body {
 }
 
 #passWord {
-  padding-top: 27px;
+  padding-top: 10px;
 }
 
 .passArea {
@@ -261,7 +274,7 @@ textarea {
 input,
 select,
 textarea {
-  color: #fff;
+  color: #000000;
 }
 
 /* Left column (menu) */
@@ -488,7 +501,7 @@ main {
   border-radius: 5px;
 }
 
-.login-container.title {
+.container.title {
   font-size: 25px;
   font-weight: 500;
   position: relative;
