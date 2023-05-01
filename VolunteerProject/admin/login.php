@@ -58,6 +58,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         .error {
             color: #FF0000;
         }
+
+        .container {
+            background-image: url(assets/image/background.webp);
+            background-repeat: no-repeat;
+            background-position: center;
+            background-attachment: fixed;
+            height: 968px;
+
+        }
     </style>
 </head>
 
