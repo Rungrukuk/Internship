@@ -14,10 +14,11 @@ $name = $surname = $fatherName = $leader = $email = $phoneNumber = $startTime = 
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
+
+
   if (!isset($_POST['csrf_token_create']) || $_POST['csrf_token_create'] !== $_SESSION['csrf_token_create']) {
     // CSRF token doesn't match or is missing, reject the form submission
-    header('HTTP/1.1 400 Bad Request');
-    echo 'CSRF token mismatch';
+    header('Location: ../error.php');
     exit;
   }
   $token = bin2hex(random_bytes(32));
@@ -88,33 +89,36 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
   //Finish Time
   if ($_POST["finishTime"] == "") {
-    $finishError = "Finish time is reqiured";
+    $finishTimeError = "Finish time is reqiured";
   } else {
     $finishTime = date('Y-m-d', strtotime(clearInput($_POST["finishTime"])));
   }
 
-  //Image
-
-
-  $uploadingFileLocation = "C:/xampp/htdocs/Internship/VolunteerProject/uploads/" . $_FILES["uploadingFile"]["name"];
-
-  $fileFormat = strtolower(pathinfo($uploadingFileLocation, PATHINFO_EXTENSION));
-  $imageName = $_FILES["uploadingFile"]["name"];
-  if (file_exists($uploadingFileLocation)) {
-    $imageError = "Uploaded file name is alread exist. Try to rename image";
-  } else if ($_FILES["uploadingFile"]["size"] > 500000) {
-    $imageError = "Your image is large. Try to send under 5mb images";
-
-  } else if ($fileFormat != "jpg" && $fileFormat != "png") {
-    $imageError = "Only jpg and png formats allowed";
-  }
-
   //Gender
-  if ($_POST["gender"] == "") {
+  if (!isset($_POST["gender"])) {
     $genderError = "Gender is reqiured";
   } else {
     $gender = $_POST["gender"];
   }
+
+  //Image
+  if (isset($_FILES["uploadingFile"])) {
+    $file_name = $_FILES["uploadingFile"]["name"];
+    $fileFormat = pathinfo($file_name, PATHINFO_EXTENSION);
+    $imageName = uniqid() . '.' . $fileFormat;
+    $dir = "C:/xampp/htdocs/Internship/VolunteerProject/uploads/";
+    $uploadingFileLocation = $dir . $imageName;
+    if ($_FILES["uploadingFile"]["size"] > 500000) {
+      $imageError = "Your image is large. Try to send under 5mb images";
+
+    } else if ($fileFormat != "jpg" && $fileFormat != "png") {
+      $imageError = "Only jpg and png formats allowed";
+    }
+  } else {
+    $imageError = "Image is required";
+  }
+
+
 
 
   if (empty($nameError) && empty($surnameError) && empty($fatherNameError) && empty($leaderError) && empty($emailError) && empty($phoneNumberError) && empty($startTimeError) && empty($finishTimeError) && empty($imageError) && empty($genderError)) {
@@ -130,10 +134,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     }
 
   }
-} else {
-  $token = bin2hex(random_bytes(32));
-  $_SESSION['csrf_token_create'] = $token;
 }
+
+
+
+$token = bin2hex(random_bytes(32));
+$_SESSION['csrf_token_create'] = $token;
+
 
 
 ?>
@@ -163,6 +170,7 @@ include "C:/xampp/htdocs/Internship/VolunteerProject/admin/includes/head.php";
         <div class="content">
           <form action="" method="post" enctype="multipart/form-data">
             <div class="user-details">
+
               <div class="input-box">
                 <span class="details">Ad <span class="error">*
                     <?php echo $nameError ?>
@@ -256,7 +264,7 @@ include "C:/xampp/htdocs/Internship/VolunteerProject/admin/includes/head.php";
             <span class="error">
               <?php echo $error; ?>
             </span>
-            <input type="hidden" name="csrf_token_create" value="<?php echo $token; ?>">
+            <input type="hidden" name="csrf_token_create" value="<?php echo $_SESSION['csrf_token_create']; ?>">
             <div class="button">
               <input type="submit" value="Yadda saxla">
             </div>

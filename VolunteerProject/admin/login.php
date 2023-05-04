@@ -33,7 +33,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $_SESSION['user_login'] = 'yes';
             header('Location: index.php');
         } else {
-            $loginError = "Username or Password is wrong";
+            $usernameError = "Username or Password is wrong";
+            $passwordError = "Username or Password is wrong";
         }
     }
 
@@ -69,16 +70,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <p id="userName">Username</p>
                     <input class="userArea" name="username" type="text" value="<?php echo $username; ?>">
                     <i class="fa-regular fa-user" style="color: #000000;"></i>
-                    <span class="error">*
-                        <?php echo $usernameError; ?>
+                    <span class="error">
+                        <?php if(!empty($usernameError)) echo "* ".$usernameError; ?>
                     </span>
                     <p id="passWord">Password</p>
                     <input class="passArea" id="password" name="password" type="password">
                     <img id="passLogo" src="assets/image/Vector.png">
                     <img id="eyeIconHide" class="hide" onclick="hiden()" src="assets/image/hide.png">
                     <img id="eyeIconView" class="view" onclick="viewer()" src="assets/image/view.png">
-                    <span class="error0">*
-                        <?php echo $passwordError; ?>
+                    <span class="error0">
+                        <?php if(!empty($passwordError)) echo "* ".$passwordError; ?>
                     </span>
                     <div class="rememberMe">
                         <input type="checkbox" value="lsRememberMe" id="rememberMe"> <label for="rememberMe">Remember

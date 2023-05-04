@@ -7,9 +7,6 @@ if (!isset($_SESSION['user_login'])) {
 $tokenDelete = bin2hex(random_bytes(32));
 $_SESSION['csrf_token_delete'] = $tokenDelete;
 
-$tokenUpdate = bin2hex(random_bytes(32));
-$_SESSION['csrf_token_update'] = $tokenUpdate;
-
 $sql = "SELECT * FROM volunteerinfos";
 
 $result = $conn->query($sql);
@@ -92,8 +89,7 @@ include "C:/xampp/htdocs/Internship/VolunteerProject/admin/includes/head.php";
                                 <td>
                                     <?php echo $row["gender"] ?>
                                 </td>
-                                <td><a
-                                        href="users/update.php?id=<?php echo $row["id"]; ?>&csrf_token_update=<?php echo $tokenUpdate; ?>">Update</a>
+                                <td><a href="users/update.php?id=<?php echo $row["id"]; ?>">Update</a>
                                 </td>
                                 <td><a
                                         href="users/delete.php?id=<?php echo $row["id"]; ?>&csrf_token_delete=<?php echo $tokenDelete; ?>">Delete</a>
