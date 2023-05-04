@@ -21,8 +21,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     header('Location: ../error.php');
     exit;
   }
-  $token = bin2hex(random_bytes(32));
-  $_SESSION['csrf_token_create'] = $token;
   //Name
   if ($_POST['name'] == '') {
     $nameError = "Name is required";
@@ -102,7 +100,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
   }
 
   //Image
-  if (isset($_FILES["uploadingFile"])) {
+  if ($_FILES["uploadingFile"]["name"] != "") {
     $file_name = $_FILES["uploadingFile"]["name"];
     $fileFormat = pathinfo($file_name, PATHINFO_EXTENSION);
     $imageName = uniqid() . '.' . $fileFormat;
@@ -137,7 +135,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 }
 
 
-
+unset($_SESSION['csrf_token_create']);
 $token = bin2hex(random_bytes(32));
 $_SESSION['csrf_token_create'] = $token;
 

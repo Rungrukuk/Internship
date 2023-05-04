@@ -40,9 +40,6 @@ if (isset($_GET["id"])) {
             header("Location: ../error.php");
             exit;
         }
-        unset($_SESSION['csrf_token_update']);
-        $token = bin2hex(random_bytes(32));
-        $_SESSION['csrf_token_update'] = $token;
         //Name
         if ($_POST['name'] == '') {
             $nameError = "Name is required";
