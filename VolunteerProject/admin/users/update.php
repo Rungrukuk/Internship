@@ -31,7 +31,7 @@ if (isset($_GET["id"])) {
     $startTime = $row["startTime"];
     $finishTime = !empty($row["finishTime"]) ? $row["finishTime"] : "";
     $gender = $row["gender"];
-    $image = $row["image"];
+    $oldImage = $row["image"];
 
 
     if ($_SERVER["REQUEST_METHOD"] === "POST") {
@@ -112,8 +112,8 @@ if (isset($_GET["id"])) {
         }
 
         //Image
-        if (isset($_FILES["uploadingFile"])) {
-            unlink("C:/xampp/htdocs/Internship/VolunteerProject/uploads/" . $image);
+        if ($_FILES["uploadingFile"]["name"] != "") {
+
             $file_name = $_FILES["uploadingFile"]["name"];
             $fileFormat = pathinfo($file_name, PATHINFO_EXTENSION);
             $image = uniqid() . '.' . $fileFormat;
@@ -125,10 +125,7 @@ if (isset($_GET["id"])) {
             } else if ($fileFormat != "jpg" && $fileFormat != "png") {
                 $imageError = "Only jpg and png formats allowed";
             }
-        } else {
-            $imageError = "Image is required";
         }
-
         //Gender
         if ($_POST["gender"] == "") {
             $genderError = "Gender is reqiured";
@@ -137,16 +134,28 @@ if (isset($_GET["id"])) {
         }
 
         if (empty($nameError) && empty($surnameError) && empty($fatherNameError) && empty($leaderError) && empty($emailError) && empty($phoneNumberError) && empty($startTimeError) && empty($finishTimeError) && empty($imageError) && empty($genderError)) {
-            $sql = "UPDATE `volunteerinfos` SET `name`='$name',`surname`='$surname',`fatherName`='$fatherName',`leader`='$leader',`email`='$email',`phoneNumber`='$phoneNumber',`startTime`='$startTime',`finishTime`='$finishTime',`image`='$image',`gender`='$gender' WHERE `id` = '$id'";
-            if (move_uploaded_file($_FILES["uploadingFile"]["tmp_name"], $uploadingFileLocation)) {
+
+            if ($_FILES["uploadingFile"]["name"] != "") {
+                $sql = "UPDATE `volunteerinfos` SET `name`='$name',`surname`='$surname',`fatherName`='$fatherName',`leader`='$leader',`email`='$email',`phoneNumber`='$phoneNumber',`startTime`='$startTime',`finishTime`='$finishTime',`image`='$image',`gender`='$gender' WHERE `id` = '$id'";
+                if (move_uploaded_file($_FILES["uploadingFile"]["tmp_name"], $uploadingFileLocation)) {
+                    if ($conn->query($sql) === TRUE) {
+                        unlink("C:/xampp/htdocs/Internship/VolunteerProject/uploads/" . $oldImage);
+                        $success = "Successfull Operation";
+                    } else {
+                        $error = "Unsuccesfull Operation";
+                    }
+                } else {
+                    $imageError = "Could not upload your image";
+                }
+            } else {
+                $sql = "UPDATE `volunteerinfos` SET `name`='$name',`surname`='$surname',`fatherName`='$fatherName',`leader`='$leader',`email`='$email',`phoneNumber`='$phoneNumber',`startTime`='$startTime',`finishTime`='$finishTime',`image`='$oldImage',`gender`='$gender' WHERE `id` = '$id'";
                 if ($conn->query($sql) === TRUE) {
                     $success = "Successfull Operation";
                 } else {
                     $error = "Unsuccesfull Operation";
                 }
-            } else {
-                $imageError = "Could not upload your image";
             }
+
         }
     }
 } else {
@@ -245,7 +254,7 @@ include "C:/xampp/htdocs/Internship/VolunteerProject/admin/includes/head.php";
                                         <?php echo $finishTimeError ?>
                                     </span></span>
 
-                                <img style="height:75px; width:75px" src="../../uploads/<?php echo $image ?>" alt="">
+                                <img style="height:75px; width:75px" src="../../uploads/<?php echo $oldImage ?>" alt="">
                             </div>
                             <div class="input-box">
                                 <span class="details">Şəkili dəyiş <span class="error">*
