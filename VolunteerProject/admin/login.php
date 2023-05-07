@@ -2,41 +2,56 @@
 include "functions/connections.php";
 include "functions/functions.php";
 
-$username = $password = $usernameError = $passwordError = $loginError = "";
+if (isset($_COOKIE[ 'username' ])) {
+    $username = $_COOKIE[ 'username' ];
+    session_start();
+    $_SESSION[ 'user_login' ] = 'yes';
+    header( 'Location: index.php' );
+}
+else {
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $username = $password = $usernameError = $passwordError = $loginError = "";
 
-    if ($_POST['username'] == '') {
-        $usernameError = "Username is required";
-    } else {
-        $username = clearInput($_POST["username"]);
-        if (!preg_match("/^[a-z A-Z' ]*$/", $username)) {
-            $usernameError = "Only letters allowed";
+    if ($_SERVER[ "REQUEST_METHOD" ] == "POST") {
+
+        if ($_POST[ 'username' ] == '') {
+            $usernameError = "Username is required";
         }
-    }
-
-    if ($_POST['password'] == '') {
-        $passwordError = "Password is required";
-    } else {
-        $password = md5($_POST["password"]);
-    }
-
-    if ($usernameError == "" and $passwordError == "") {
-
-        $sql_login = "SELECT * FROM users WHERE `username` = '$username' and `password` = '$password'";
-
-        $result = mysqli_query($conn, $sql_login);
-
-        if (mysqli_num_rows($result) > 0) {
-
-            session_start();
-            $_SESSION['user_login'] = 'yes';
-            header('Location: index.php');
-        } else {
-            $loginError = "Username or password is wrong";
+        else {
+            $username = clearInput( $_POST[ "username" ] );
+            if (!preg_match( "/^[a-z A-Z' ]*$/", $username )) {
+                $usernameError = "Only letters allowed";
+            }
         }
-    }
 
+        if ($_POST[ 'password' ] == '') {
+            $passwordError = "Password is required";
+        }
+        else {
+            $password = md5( $_POST[ "password" ] );
+        }
+
+        if ($usernameError == "" and $passwordError == "") {
+
+            $sql_login = "SELECT * FROM users WHERE `username` = '$username' and `password` = '$password'";
+
+            $result = mysqli_query( $conn, $sql_login );
+
+            if (mysqli_num_rows( $result ) > 0) {
+
+                session_start();
+                $_SESSION[ 'user_login' ] = 'yes';
+                if (isset($_POST[ 'remember_me' ])) {
+                    setcookie( "username", $_POST[ 'username' ], time() + (86400 * 30), "/" ); // Cookie expires in 30 days
+                }
+                header( 'Location: index.php' );
+            }
+            else {
+                $loginError = "Username or password is wrong";
+            }
+        }
+
+    }
 }
 
 
@@ -83,7 +98,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             echo "* " . $passwordError; ?>
                     </span>
                     <div class="rememberMe">
-                        <input type="checkbox" value="lsRememberMe" id="rememberMe"> <label for="rememberMe">Remember
+                        <input type="checkbox" name="remember_me" value="lsRememberMe" id="rememberMe"> <label
+                            for="rememberMe">Remember
                             me</label><br>
                         <input class="loginButton" type="submit" value="Login" onclick="lsRememberMe()">
 

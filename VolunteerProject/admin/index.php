@@ -2,7 +2,7 @@
 include "functions/connections.php";
 session_start();
 if (!isset($_SESSION[ 'user_login' ])) {
-  header( 'Location: C:/xampp/htdocs/Internship/VolunteerProject/admin/login.php' );
+  header( 'Location: login.php' );
 }
 $sql = "SELECT * FROM volunteerinfos";
 
