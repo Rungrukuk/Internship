@@ -7,6 +7,7 @@ if (isset($_COOKIE['username'])) {
     session_start();
     $_SESSION['user_login'] = 'yes';
     header('Location: index.php');
+    exit;
 } else {
 
     $username = $password = $usernameError = $passwordError = $loginError = $captchaError = "";
@@ -51,7 +52,7 @@ if (isset($_COOKIE['username'])) {
             $password = md5($_POST["password"]);
         }
 
-        if ($usernameError == "" and $passwordError == "") {
+        if ($usernameError == "" and $passwordError == "" and $captchaError == "") {
 
             $sql_login = "SELECT * FROM users WHERE `username` = '$username' and `password` = '$password'";
 
