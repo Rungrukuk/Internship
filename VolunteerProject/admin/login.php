@@ -99,32 +99,34 @@ if (isset($_COOKIE['username'])) {
         <main class="main">
             <div class="inputArea">
                 <form id="form" action="" method="post">
+                    
+                    <!-- <div class="alert alert-danger" role="alert">
+                        error
+                    </div> -->
 
                     <p id="userName">Username</p>
-                    <input class="userArea" name="username" type="text" value="<?php echo $username; ?>">
-                    <i class="fa-regular fa-user" style="color: #000000;"></i>
-                    <span class="error">
-                        <?php if (!empty($usernameError))
-                            echo "* " . $usernameError; ?>
-                    </span>
+                    <input class="userArea" name="username" type="text" value="<?php echo $username; ?>"><br>
+                    <img class="fa-user" src="assets/image/user-icon.png">
+                    
                     <p id="passWord">Password</p>
                     <input class="passArea" id="password" name="password" type="password">
                     <img id="passLogo" src="assets/image/Vector.png">
                     <img id="eyeIconHide" class="hide" onclick="hiden()" src="assets/image/hide.png">
                     <img id="eyeIconView" class="view" onclick="viewer()" src="assets/image/view.png">
-                    <span class="error0">
-                        <?php if (!empty($passwordError))
-                            echo "* " . $passwordError; ?>
-                    </span>
+                    
                     <div class="rememberMe">
                         <input type="checkbox" name="remember_me" value="lsRememberMe" id="rememberMe"> <label
                             for="rememberMe">Remember
-                            me</label><br>
+                            me</label><br><br>
+                        <div class="g-recaptcha" data-sitekey="6LdyJuwlAAAAAGQ8KFKSowS2Pjel2w0FCxuvd41x">
+                        </div>
 
                         <input class="loginButton" type="submit" value="Login" onclick="lsRememberMe()">
 
                     </div>
-                    <div class="g-recaptcha" data-sitekey="6LdyJuwlAAAAAGQ8KFKSowS2Pjel2w0FCxuvd41x"></div>
+
+                    
+
                 </form>
             </div>
         </main>
