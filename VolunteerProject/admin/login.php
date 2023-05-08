@@ -2,81 +2,73 @@
 include "functions/connections.php";
 include "functions/functions.php";
 
-if (isset($_COOKIE[ 'username' ])) {
-    $username = $_COOKIE[ 'username' ];
+if (isset($_COOKIE['username'])) {
+    $username = $_COOKIE['username'];
     session_start();
-    $_SESSION[ 'user_login' ] = 'yes';
-    header( 'Location: index.php' );
-}
-else {
+    $_SESSION['user_login'] = 'yes';
+    header('Location: index.php');
+} else {
 
-    $username = $password = $usernameError = $passwordError = $loginError = "";
+    $username = $password = $usernameError = $passwordError = $loginError = $captchaError = "";
 
-    if ($_SERVER[ "REQUEST_METHOD" ] == "POST") {
-        $recaptchaResponse = $_POST[ 'g-recaptcha-response' ];
-        $secretKey         = '6LdyJuwlAAAAANTVJOgrBsXoFKg13hBFVXN_PoNF';
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        $recaptchaResponse = $_POST['g-recaptcha-response'];
+        $secretKey = '6LdyJuwlAAAAANTVJOgrBsXoFKg13hBFVXN_PoNF';
 
-        $url  = 'https://www.google.com/recaptcha/api/siteverify';
+        $url = 'https://www.google.com/recaptcha/api/siteverify';
         $data = array(
-            'secret'   => $secretKey,
+            'secret' => $secretKey,
             'response' => $recaptchaResponse
         );
 
         $options = array(
             'http' => array(
-                'header'  => "Content-type: application/x-www-form-urlencoded\r\n",
-                'method'  => 'POST',
-                'content' => http_build_query( $data )
+                'header' => "Content-type: application/x-www-form-urlencoded\r\n",
+                'method' => 'POST',
+                'content' => http_build_query($data)
             )
         );
 
-        $context  = stream_context_create( $options );
-        $result   = file_get_contents( $url, false, $context );
-        $response = json_decode( $result, true );
-        if ($response[ 'success' ]) {
-            if ($_POST[ 'username' ] == '') {
-                $usernameError = "Username is required";
-            }
-            else {
-                $username = clearInput( $_POST[ "username" ] );
-                if (!preg_match( "/^[a-z A-Z' ]*$/", $username )) {
-                    $usernameError = "Only letters allowed";
-                }
-            }
-
-            if ($_POST[ 'password' ] == '') {
-                $passwordError = "Password is required";
-            }
-            else {
-                $password = md5( $_POST[ "password" ] );
-            }
-
-            if ($usernameError == "" and $passwordError == "") {
-
-                $sql_login = "SELECT * FROM users WHERE `username` = '$username' and `password` = '$password'";
-
-                $result = mysqli_query( $conn, $sql_login );
-
-                if (mysqli_num_rows( $result ) > 0) {
-
-                    session_start();
-                    $_SESSION[ 'user_login' ] = 'yes';
-                    if (isset($_POST[ 'remember_me' ])) {
-                        setcookie( "username", $_POST[ 'username' ], time() + (86400 * 30), "/" ); // Cookie expires in 30 days
-                    }
-                    header( 'Location: index.php' );
-                }
-                else {
-                    $loginError = "Username or password is wrong";
-                }
-            }
-        }
-        else {
-            header( 'Location: error.php' );
+        $context = stream_context_create($options);
+        $result = file_get_contents($url, false, $context);
+        $response = json_decode($result, true);
+        if (!$response['success']) {
+            $captchaError = "You're Robot";
         }
 
+        if ($_POST['username'] == '') {
+            $usernameError = "Username is required";
+        } else {
+            $username = clearInput($_POST["username"]);
+            if (!preg_match("/^[a-z A-Z' ]*$/", $username)) {
+                $usernameError = "Only letters allowed";
+            }
+        }
 
+        if ($_POST['password'] == '') {
+            $passwordError = "Password is required";
+        } else {
+            $password = md5($_POST["password"]);
+        }
 
+        if ($usernameError == "" and $passwordError == "") {
+
+            $sql_login = "SELECT * FROM users WHERE `username` = '$username' and `password` = '$password'";
+
+            $result = mysqli_query($conn, $sql_login);
+
+            if (mysqli_num_rows($result) > 0) {
+
+                session_start();
+                $_SESSION['user_login'] = 'yes';
+                if (isset($_POST['remember_me'])) {
+                    setcookie("username", $_POST['username'], time() + (86400 * 30), "/"); // Cookie expires in 30 days
+                }
+                header('Location: index.php');
+            } else {
+                $loginError = "Username or password is wrong";
+            }
+        }
     }
 }
 

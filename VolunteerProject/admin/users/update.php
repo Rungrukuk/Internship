@@ -140,6 +140,7 @@ if (isset($_GET["id"])) {
                 if (move_uploaded_file($_FILES["uploadingFile"]["tmp_name"], $uploadingFileLocation)) {
                     if ($conn->query($sql) === TRUE) {
                         unlink("C:/xampp/htdocs/Internship/VolunteerProject/uploads/" . $oldImage);
+                        $oldImage = $image;
                         $success = "Successfull Operation";
                     } else {
                         $error = "Unsuccesfull Operation";
